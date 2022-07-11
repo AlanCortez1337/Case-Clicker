@@ -3,28 +3,46 @@ import { motion } from "framer-motion";
 
 function Reaction({emojis, showEmotes}) {
     
-
-
+    // const controls = useAnimation();
+    
     
     return(
+        
         <div className="reaction-box">
-            {/* slap a rain cloud or something above this */}
-            {emojis.map((emoji) => {
-
-                return (
+                {/* {showEmotes &&
                     <motion.div
-                        style={{fontSize: `${(Math.random() * 30) + 18}px`}}
-                        initial={{ opacity: 1 }}
-                        animate={{ y: `${(Math.random() * 120) + 120}px`, opacity: 0 }}
-                        transition={{
-                            repeat: `${Math.floor(Math.random() * 2) + 2}`, 
-                            duration: `${(Math.random() * 2) + 1}`,
-                            ease: "easeInOut",
-                        }}
-                    >{emoji}</motion.div>
-                );
-                
-            })}
+                        animate={controls}
+                    >
+                        {emojis}
+                    </motion.div>
+                } */}
+
+
+                {/* {showEmotes && emojis.map((emoji) => {
+                    return (
+                        <motion.di
+                            key={Math.random() * 10}
+                            // style={{fontSize: `${(Math.random() * 30) + 18}px`}}
+                            // initial={{ opacity: 1 }}
+                            // animate={{ y: `${(Math.random() * 120) + 120}px`, opacity: 0 }}
+                            // transition={{
+                            //     repeat: '0',
+                            //     duration: `${(Math.random() * 2) + 1}`,
+                            //     ease: "easeInOut",
+                            // }}
+                            style={{fontSize: `28px`}}
+                            initial={{ opacity: 1 }}
+                            animate={{ y: `450px`, opacity: 0 }}
+                            transition={{
+                                repeat: '0',
+                                duration: `1`,
+                                ease: "easeInOut",
+                            }}
+
+                        >{emoji}</motion.div>
+                    );
+                    
+                })} */}
         </div>
     );
 }

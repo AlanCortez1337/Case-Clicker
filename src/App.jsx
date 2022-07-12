@@ -5,66 +5,47 @@ import Reaction from './components/reactions'
 
 function App() {
   const [affection, setAffection] = useState(0);
-  // The idea for this was to increase the amount of times the loop will happen in reactions.jsx each time they click, and turns 0 if nothign happens for a minute but idk anymore
-  // const [emojiRepeat, setEmojiRepeat] = useState(1);
-  const [newEmojis, setNewEmojis] = useState(["😫"]);
+  const [newEmojis, setNewEmojis] = useState([]);
   const [showEmojis, setShowEmojis] = useState(false);
 
   // useEffect(()=>{
-  //   console.log("current:", showEmojis)
-  //   // possibly need to fix logic
-  //   if (showEmojis) {
+  //   console.log(newEmojis);
+  //   if(newEmojis.length > 5) {
   //     setTimeout(()=>{
-  //       setShowEmojis(false);
-  //     }, 5000)
+  //       setNewEmojis(newEmojis.filter((_, index) => index === 0));
+  //       console.log(newEmojis.filter((_, index) => index === 0));
+        
+  //     }, 1000);
   //   }
-  // },[showEmojis]);
+  // },[newEmojis]);
+
 
   const handleClick = () => {
     setAffection((affection) => affection + 1);
-    // console.log("before",newEmojis)
-    // setNewEmojis([...newEmojis, newEmojis.push("😫")]);
-    // console.log(newEmojis)
-    // if(newEmojis.length > 3) {
-    //   console.log(typeof(newEmojis[1]))
-    // }
-    setNewEmojis([...newEmojis, "😫"]);
+    setNewEmojis([...newEmojis, {emote:"😫", id: affection}]);
+    console.log(newEmojis);
+    if(newEmojis.length === 8) {
+        setNewEmojis([...newEmojis.slice(0, 1),
+        ...newEmojis.slice(2, newEmojis.length)]);
+    }
     setShowEmojis(true);
-  }
+  };
 
   return (
     <div className='game-grid'>
-      {/* <Reaction emojis={newEmojis} showEmotes={showEmojis}/> */}
+      <Reaction emojis={newEmojis} showEmotes={showEmojis}/>
       {/* test */}
-      <div className='box'>
-
-        {newEmojis.map((emotes) => {
-          return(
-
-            <motion.div
-                style={{fontSize: `28px`}}
-                initial={{ opacity: 1 }}
-                animate={{ y: `450px`, opacity: 0 }}
-                transition={{
-                    repeat: '0',
-                    duration: `1`,
-                    ease: "easeInOut",
-                }}
-            >{emotes}</motion.div>
-          );
-        })
-        }
-      </div>
+      
 
 
 
       {/* clickable area */}
       <button onClick={handleClick}>
-        {/* <motion.img 
+        <motion.img 
         whileTap={{ scale: 0.9 }}
-        src={Icon} alt="asdf" /> */}
+        src={Icon} alt="asdf" />
       </button>
-      {/* <Reaction emojis={newEmojis} showEmotes={showEmojis}/> */}
+      <Reaction emojis={newEmojis} showEmotes={showEmojis}/>
       <div>Affection Levels: {affection}</div>
     </div>
   )

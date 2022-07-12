@@ -9,10 +9,8 @@
 }
 /* Reaction Box */
 .reaction-box {
-  height: 200px;
-  display: flex;
-}
-
-.box {
   width: 400px;
+}
+.reaction-box > * {
+  position: absolute;
 }

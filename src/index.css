@@ -13,5 +13,11 @@
 }
 .reaction-box > * {
   position: absolute;
-  
+  z-index: 3;
+
+}
+/* Click area */
+.clickable-area img{
+  position: relative;
+  z-index: 1;
 }

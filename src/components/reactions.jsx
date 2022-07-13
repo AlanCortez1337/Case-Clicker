@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 
-function Reaction({emojis, showEmotes}) {
+function Reaction({emojis}) {
     
     
     return(
@@ -13,7 +13,7 @@ function Reaction({emojis, showEmotes}) {
             <motion.div
                 key={emotes.id}
                 style={{fontSize: `48px`}}
-                initial={{ y: `450px`, x: `${Math.floor(Math.random() * 300)}px`,opacity: 1 }}
+                initial={{ y: `${Math.floor(Math.random() * 300) + 250}px`, x: `${Math.floor(Math.random() * 300)}px`,opacity: 1 }}
                 animate={{ y: `0px`, opacity: 0 }}
                 transition={{
                     repeat: '0',

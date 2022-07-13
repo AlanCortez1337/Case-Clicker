@@ -14,10 +14,18 @@ function App() {
   // Visual to show that the affection is low
   useEffect(()=>{
     // So like I push too many and it causes an oopsie
-    if (affection === 25) {
+    if (affection === 10) {
+      // setCurrentEmoji("😳");
+      setCurrentEmotion([
+        {emote: "😈", id: Math.random()}, 
+        {emote: "😈", id: Math.random()}, 
+        {emote: "😈", id: Math.random()}, 
+        {emote: "😈", id: Math.random()}, 
+        {emote: "😈", id: Math.random()}
+      ]);
+    } else if (affection === 25) {
       // setCurrentEmoji("😡");
       setCurrentEmotion([
-        ...newEmojis, 
         {emote: "😡", id: Math.random()}, 
         {emote: "😡", id: Math.random()}, 
         {emote: "😡", id: Math.random()}, 
@@ -28,7 +36,6 @@ function App() {
     } else if (affection === 50) {
       // setCurrentEmoji("😔");
       setCurrentEmotion([
-        ...newEmojis, 
         {emote: "😔", id: Math.random()}, 
         {emote: "😔", id: Math.random()}, 
         {emote: "😔", id: Math.random()}, 
@@ -38,7 +45,6 @@ function App() {
     } else if (affection === 75) {
       // setCurrentEmoji("😐");
       setCurrentEmotion([
-        ...newEmojis, 
         {emote: "😐", id: Math.random()}, 
         {emote: "😐", id: Math.random()}, 
         {emote: "😐", id: Math.random()}, 
@@ -46,10 +52,7 @@ function App() {
         {emote: "😐", id: Math.random()}
       ]);
 
-    } else if (affection > 75) {
-      // setCurrentEmoji("😳");
-      // setNewEmojis([...newEmojis, {emote: currentEmoji, id: Math.random()}]);
-    }
+    } 
   }, [affection]);
 
   // This is to decrement the affection since the person is getting bored
@@ -90,12 +93,14 @@ function App() {
     <div className='game-grid'>
       <Reaction emojis={newEmojis}/>
       {/* clickable area */}
-      <button onClick={handleClick} className="clickable-area">
+      <div onClick={handleClick} className="clickable-area">
         <motion.img 
         whileTap={{ scale: 0.9 }}
+        
         src={Icon} alt="clickable area" />
         <Reaction emojis={currentEmotion}/>
-      </button>
+
+      </div>
       <Reaction emojis={newEmojis}/>
       <div>Affection Levels: {affection}</div>
     </div>

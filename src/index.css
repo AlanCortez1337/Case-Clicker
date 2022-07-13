@@ -9,7 +9,7 @@
 }
 /* Reaction Box */
 .reaction-box {
-  width: 400px;
+  width: 550px;
 }
 .reaction-box > * {
   position: absolute;
@@ -17,7 +17,11 @@
 
 }
 /* Click area */
-.clickable-area img{
+/* .clickable-area img{
   position: relative;
   z-index: 1;
+} */
+.clickable-area > * {
+  position: absolute;
+  
 }

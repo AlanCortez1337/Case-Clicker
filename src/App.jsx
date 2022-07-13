@@ -4,29 +4,43 @@ import Icon from './favicon.svg'
 import Reaction from './components/reactions'
 
 function App() {
-  const [affection, setAffection] = useState(0);
+  // reaction state
   const [newEmojis, setNewEmojis] = useState([]);
   const [showEmojis, setShowEmojis] = useState(false);
+  // affection tally
+  const [affection, setAffection] = useState(100);
 
-  // useEffect(()=>{
-  //   console.log(newEmojis);
-  //   if(newEmojis.length > 5) {
-  //     setTimeout(()=>{
-  //       setNewEmojis(newEmojis.filter((_, index) => index === 0));
-  //       console.log(newEmojis.filter((_, index) => index === 0));
-        
-  //     }, 1000);
-  //   }
-  // },[newEmojis]);
+  useEffect(()=>{
+    console.log(affection)
+    if(!showEmojis) {
+      setTimeout(() => {
+        if(affection > 0) {
+        setAffection((affection) => affection - 1);
+        }
+      }, 1000);
+    }
+    
+  }, [affection, showEmojis]);
+
+  useEffect(()=>{
+    setTimeout(() => {
+      if(showEmojis) {
+        setShowEmojis(false);
+      }
+    }, 1000);
+  },[showEmojis]);
 
 
   const handleClick = () => {
-    setAffection((affection) => affection + 1);
-    setNewEmojis([...newEmojis, {emote:"😫", id: affection}]);
+    if(affection < 100) {
+      
+      setAffection((affection) => affection + 1 );
+    }
+    setNewEmojis([...newEmojis, {emote:"👀", id: Math.random()}]);
     console.log(newEmojis);
-    if(newEmojis.length === 8) {
+    if(newEmojis.length === 10) {
         setNewEmojis([...newEmojis.slice(0, 1),
-        ...newEmojis.slice(2, newEmojis.length)]);
+        ...newEmojis.slice(6, newEmojis.length)]);
     }
     setShowEmojis(true);
   };

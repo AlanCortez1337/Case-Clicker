@@ -25,3 +25,14 @@
   position: absolute;
 
 }
+/* Status Bar */
+.progress-bar {
+  position: relative;
+  height: 20px;
+  width: 400px;
+  background-color: #f0f0f0f0;
+}
+.current-progress {
+  height: 100%;
+  position: absolute;
+}

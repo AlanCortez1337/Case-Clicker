@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Reaction from './components/reactions'
 import Timer from './components/timer'
 import TapBox from './components/clickableArea'
+import ProgressBar from './components/statusBar'
 
 function App() {
   // reaction state
@@ -9,7 +10,7 @@ function App() {
   const [currentEmotion, setCurrentEmotion] = useState([]);
   const [currentEmoji, setCurrentEmoji] = useState("😳");
   // affection tally
-  const [affection, setAffection] = useState(100);
+  const [affection, setAffection] = useState(45);
   const [startTimer, setStartTimer] = useState(false);
   // current timer
   const [currentTime, setCurrentTime] = useState(0);
@@ -63,7 +64,7 @@ function App() {
         if(affection > 0) {
         setAffection((affection) => affection - 1);
         }
-      }, 1000);
+      }, 250);
     }
   }, [affection, startTimer]);
   // A timer to wait 1 second and see if the player is clicking, if not then the timer can decrement again
@@ -72,7 +73,7 @@ function App() {
       if(startTimer) {
         setStartTimer(false);
       }
-    }, 1000);
+    }, 300);
   },[startTimer]);
   // A purge to remove old emotes that no logner exist
   useEffect(()=>{
@@ -101,6 +102,7 @@ function App() {
       
       <Reaction emojis={newEmojis}/>
       <div>Affection Levels: {affection}</div>
+      <ProgressBar currentProgress={affection}/>
       <Timer updateTime={theCurrentTime}/>
     </div>
   )

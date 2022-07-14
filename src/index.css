@@ -14,7 +14,7 @@
 .reaction-box > * {
   position: absolute;
   z-index: 3;
-
+  cursor: none;
 }
 /* Click area */
 /* .clickable-area img{
@@ -23,5 +23,5 @@
 } */
 .clickable-area > * {
   position: absolute;
-  
+
 }

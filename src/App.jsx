@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { motion } from "framer-motion";
-import Icon from './favicon.svg'
 import Reaction from './components/reactions'
+import Timer from './components/timer'
+import TapBox from './components/clickableArea'
 
 function App() {
   // reaction state
@@ -11,9 +11,10 @@ function App() {
   // affection tally
   const [affection, setAffection] = useState(100);
   const [startTimer, setStartTimer] = useState(false);
+  // current timer
+  const [currentTime, setCurrentTime] = useState(0);
   // Visual to show that the affection is low
   useEffect(()=>{
-    // So like I push too many and it causes an oopsie
     if (affection === 10) {
       // setCurrentEmoji("😳");
       setCurrentEmotion([
@@ -81,7 +82,7 @@ function App() {
     }
   },[newEmojis])
 
-  const handleClick = () => {
+  const incrementAffection = () => {
     if(affection < 100) {
       setAffection((affection) => affection + 1 );
     }
@@ -89,20 +90,18 @@ function App() {
     setStartTimer(true);
   };
 
+  const theCurrentTime = (time) => {
+    setCurrentTime(time);
+  }
+
   return (
     <div className='game-grid'>
       <Reaction emojis={newEmojis}/>
-      {/* clickable area */}
-      <div onClick={handleClick} className="clickable-area">
-        <motion.img 
-        whileTap={{ scale: 0.9 }}
-        
-        src={Icon} alt="clickable area" />
-        <Reaction emojis={currentEmotion}/>
-
-      </div>
+      <TapBox reactions={currentEmotion} updateAffection={incrementAffection}/>
+      
       <Reaction emojis={newEmojis}/>
       <div>Affection Levels: {affection}</div>
+      <Timer updateTime={theCurrentTime}/>
     </div>
   )
 }

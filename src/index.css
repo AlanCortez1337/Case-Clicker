@@ -1,3 +1,10 @@
+:root {
+  --progress-bar-bg: #f0f0f0;
+  --gain-money-btn: #2FBF71;
+  --gain-affection-btn: #EF2D56;
+
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -23,16 +30,38 @@
 } */
 .clickable-area > * {
   position: absolute;
-
 }
 /* Status Bar */
 .progress-bar {
   position: relative;
   height: 20px;
   width: 400px;
-  background-color: #f0f0f0f0;
+  background-color: var(--progress-bar-bg);
 }
 .current-progress {
   height: 100%;
   position: absolute;
+}
+/* Perk Grid */
+.perks {
+  grid-column: span 2;
+  display: flex;
+  gap: 20px;
+}
+/* Perk Buttons */
+.perkBtn {
+  width: 250px;
+  height: 200px;
+  border: black 5px solid;
+  border-radius: 25px;
+
+}
+.getCash {
+  background-color: var(--gain-money-btn);
+  font-size: 64px;
+}
+
+.getAffection {
+  background-color: var(--gain-affection-btn);
+  font-size: 64px;
 }

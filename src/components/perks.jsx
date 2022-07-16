@@ -1,24 +1,27 @@
 import { useState } from 'react';
-
-import PassiveIncome from '../hooks/useCounter'
 import PerkButtons from './perkOptions'
+import usePerkStatus from '../hooks/usePerkStatus';
+import useCounter from '../hooks/useCounter';
 
-export default function Perks({updatePerks}) {
+export default function Perks({modifyPerks}) {
     
     const [showPerks, setShowPerks] = useState("options");
-    // const money = PassiveIncome(0, 5000, "increment");
-
-    // const workPerk = () => {
-    //     updatePerks
-    //   }
+    const [timeLeft, updateTimeLeft] = useCounter(90, 100, "decrement", 1);
+    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange] = usePerkStatus(5);
 
 
+    const chosenPerk = (perkOption) => {
+        // This aint working
+        modifyPerks(perkOption)
+        // need to disable current perk if necessary
+        console.log("tapped", perkOption)
+        updateTimeLeft(90)
+        gambleChange(perkOption)
+    }
 
     const revealPerks = (option) => {
         setShowPerks(option);
     }
-
-
 
     return (
         <div className="perks">
@@ -26,15 +29,32 @@ export default function Perks({updatePerks}) {
             {showPerks === "options" ? 
             
             <>
-                <PerkButtons btnType="getCash" updatePerks={revealPerks}/>
-                <PerkButtons btnType="getAffection" updatePerks={revealPerks}/>
+                <PerkButtons 
+                    btnType="💰" 
+                    updatePerks={revealPerks} 
+                    cost={-1} 
+                    backgroundColor={"#2FBF71"}
+                />
+                <PerkButtons 
+                    btnType="😳" 
+                    updatePerks={revealPerks} 
+                    cost={-1} 
+                    backgroundColor={"#EF2D56"}
+                />
             </>
             :
             <>
                 {showPerks === "money" ? 
                 <>
-                    <PerkButtons btnType="workAtAMC" updatePerks={workPerk}/>
-                    <PerkButtons btnType="gamble" updatePerks={revealPerks}/>
+                    {/* <PerkButtons btnType="workAtAMC" updatePerks={() => chosenPerk("workPerk")} cost={-1} disabled={disabled}/> */}
+                    <PerkButtons 
+                        btnType="gamble" 
+                        updatePerks={() => chosenPerk("gamble")} 
+                        cost={gambleCost} 
+                        disabled={gambleDisabled} 
+                        backgroundColor={"#2FBF71"}
+                        timer={timeLeft}
+                    />
                 </>
                 :
                 <div>amongus</div>

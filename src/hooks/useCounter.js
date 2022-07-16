@@ -8,12 +8,14 @@ export default function useCounter (time, timeInterval, counterType, modifier) {
     useEffect(()=>{
         if(interaction === "timer") {
             if(counterType === "increment"){
-                    setTimeout(() => {
-                        setCurrentTime(prevTime => prevTime + mod);
-                        setInteraction("timer");
-                    }, timeInterval);
+                setTimeout(() => {
+                    setCurrentTime(prevTime => prevTime + mod);
+                    setInteraction("timer");
+                }, timeInterval);
             } else if (counterType === "decrement") {
+                // Add life trigger here
                 if(currentTime > 0) {
+                    // console.log("hits");
                     setTimeout(() => {
                         setCurrentTime(prevTime => prevTime - mod);
                         setInteraction("timer");

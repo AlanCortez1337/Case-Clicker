@@ -54,14 +54,6 @@
   height: 200px;
   border: black 5px solid;
   border-radius: 25px;
+  /* font-size: 64px; */
 
-}
-.getCash {
-  background-color: var(--gain-money-btn);
-  font-size: 64px;
-}
-
-.getAffection {
-  background-color: var(--gain-affection-btn);
-  font-size: 64px;
 }

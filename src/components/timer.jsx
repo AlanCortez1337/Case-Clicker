@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react";
+import Counter from '../hooks/useCounter'
 
-function Timer({updateTime}) {
-    const [time, setTime] = useState(0);
+function Timer() {
+    const [time, updateTime, updateType] = Counter(0, 1000, "increment", 1);
 
-    useEffect(()=>{
-        setTimeout(() => {
-            setTime(prevTime => prevTime + 1);
-            updateTime(time);
-        }, 1000);
-    },[time])
+    const handleCringe = () => {
+        updateTime(prevTime => prevTime + 1);
+        updateType("tap");
+    }
+
 
     return(
-        <div>Time Lasted: {time}</div>
+        <button onClick={handleCringe}>Time Lasted: {time}</button>
     );
 }
 

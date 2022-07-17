@@ -12,7 +12,7 @@ function App() {
   const [currentEmoji, setCurrentEmoji] = useState(["😳","👍", "🤝"]);
   // Custom hook to manage the affection
   // might need to change setModifier to modifier??????
-  const [affection, setAffection, setAffectionInteraction, setAffectionModifier] = useCounter(45, 250, "decrement", 1);
+  const [affection, setAffection, setAffectionInteraction, setAffectionModifier] = useCounter(45, 200, "decrement", 1);
   const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(0, 2500, "increment", 1);
   // move timer up here
   // A purge to remove old emotes that no logner exist
@@ -35,6 +35,7 @@ function App() {
   const modPerks = (perk) => {
     switch (perk) {
       case "workPerk":
+        console.log(perk);
         setAffectionModifier(2);
         setAffectionInteraction("timer");
         setMoneyModifier(5);
@@ -61,7 +62,7 @@ function App() {
       <Reaction emojis={newEmojis}/>
       {/* turn this into a compoment called stats or something */}
       <div>Affection Levels: {affection}, Money: {money}</div>
-      <ProgressBar currentProgress={affection}/>
+      <ProgressBar currentProgress={affection} width="400px" height="20px" startPoint="0%"/>
       <Timer/>
       {/* yeah ^ */}
       <Perks modifyPerks={modPerks}/>

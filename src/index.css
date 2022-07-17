@@ -34,8 +34,8 @@
 /* Status Bar */
 .progress-bar {
   position: relative;
-  height: 20px;
-  width: 400px;
+  /* height: 20px;
+  width: 400px; */
   background-color: var(--progress-bar-bg);
 }
 .current-progress {
@@ -55,5 +55,10 @@
   border: black 5px solid;
   border-radius: 25px;
   /* font-size: 64px; */
+}
 
+.disabledBtn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }

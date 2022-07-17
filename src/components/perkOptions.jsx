@@ -26,19 +26,20 @@ export default function PerkOptions({btnType, updatePerks, cost, disabled, backg
                     <span>more info...</span>
                 </motion.button>
                 :
-                <>
+                <div className='disabledBtn'>
                     <motion.button 
+                        initial={{rotate: 0, backgroundColor: backgroundColor}}
                         whileHover={{scale: 1.05}}
                         whileTap={{rotate: [0, 10, -10, 0], backgroundColor: "#EF2D56"}}
                         transition={disabledButtonTransistion}
                         className="perkBtn"
                     >
                         {btnType}
-                        {cost !== -1 &&  <span>cost: ${cost}</span>}
+                        {cost > 0 &&  <span>cost: ${cost}</span>}
                         <span>more info...</span>
                     </motion.button>
-                    <StatusBar currentProgress={timer}/>
-                </>
+                    <StatusBar currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
+                </div>
             }
         </>
     );

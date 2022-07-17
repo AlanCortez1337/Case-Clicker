@@ -5,6 +5,9 @@ export default function useCounter (time, timeInterval, counterType, modifier) {
     const [mod, setMod] = useState(modifier);
     const [interaction, setInteraction] = useState("timer");
 
+
+
+
     useEffect(()=>{
         if(interaction === "timer") {
             if(counterType === "increment"){

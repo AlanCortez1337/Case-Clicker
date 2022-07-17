@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-export default function StatusBar ({currentProgress}) {
+export default function StatusBar ({currentProgress, width, height, startPoint}) {
     const [statusColor, setStatusColor] = useState("#2FBF71");
 
     useEffect(()=>{
@@ -26,15 +26,17 @@ export default function StatusBar ({currentProgress}) {
     };
 
     return (
-        <div className="progress-bar">
-            {/* animati */}
-            <motion.span
-                style={{width: `55%`}}
-                initial={{width: '0%'}}
-                animate={{width: `${currentProgress}%`, backgroundColor: statusColor}}
-                transition={progressTransition}
-                className="current-progress"
-            ></motion.span>
+        <div className="progress-bar" style={{height: height, width: width}}>
+            {/* animati */} 
+            {!isNaN(currentProgress) && 
+                <motion.span
+                    style={{width: ``, height: ""}}
+                    initial={{width: startPoint}}
+                    animate={{width: `${currentProgress}%`, backgroundColor: statusColor}}
+                    transition={progressTransition}
+                    className="current-progress"
+                >{currentProgress}</motion.span>
+            }
         </div>
     );
 }

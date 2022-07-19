@@ -49,16 +49,37 @@
   gap: 20px;
 }
 /* Perk Buttons */
-.perkBtn {
+.perk-button {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.perk-content {
+  padding: 15px;
   width: 250px;
   height: 200px;
   border: black 5px solid;
   border-radius: 25px;
-  /* font-size: 64px; */
-}
-
-.disabledBtn {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  justify-content: end;
+  align-items: center;
+  gap: 44px;
+  font-size: 18px;
+}
+
+.top-perk-info {
+  width: 100%;
+  display: flex;
+}
+
+.bottom-perk-info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.perk-title {
+  font-size: 24px;
 }

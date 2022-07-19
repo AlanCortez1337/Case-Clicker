@@ -2,18 +2,29 @@ import { useState } from 'react';
 import PerkButtons from './perkOptions'
 import usePerkStatus from '../hooks/usePerkStatus';
 
-export default function Perks({modifyPerks}) {
+export default function Perks({modifyPerks, currentMoney}) {
     
     const [showPerks, setShowPerks] = useState("options");
-    const [workDisabled, workCost, workQuantity, workChange, workTime] = usePerkStatus(-1);
-    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange, gambleTime] = usePerkStatus(5);
+    const [workDisabled, workCost, workQuantity, workChange, workTime] = usePerkStatus(-1, 32, 5000);
+    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
 
 
     const chosenPerk = (perkOption) => {
-        modifyPerks(perkOption)
         // need to disable current perk if necessary
-        console.log("tapped", perkOption)
-        workChange(perkOption)
+        if(perkOption === "workPerk") {
+            // disable button
+            workChange(perkOption)
+            // update numbers
+            console.log(workDisabled)
+            modifyPerks(perkOption, workCost)
+        } else if (perkOption === "gamble") {
+            if(currentMoney >= gambleCost) {
+                // disable button
+                gambleChange(perkOption)
+                // update numbers
+                modifyPerks(perkOption, gambleCost)
+            }
+        }
     }
 
     const revealPerks = (option) => {
@@ -44,7 +55,7 @@ export default function Perks({modifyPerks}) {
                 {showPerks === "money" ? 
                 <>
                     <PerkButtons 
-                        btnType="workAtAMC" 
+                        btnType="🍿Work At AMC🍿" 
                         updatePerks={() => chosenPerk("workPerk")} 
                         cost={workCost} 
                         disabled={workDisabled}
@@ -52,7 +63,7 @@ export default function Perks({modifyPerks}) {
                         timer={workTime}
                     />
                     <PerkButtons 
-                        btnType="gamble"
+                        btnType="🎲Gamble🎲"
                         updatePerks={() => chosenPerk("gamble")} 
                         cost={gambleCost} 
                         disabled={gambleDisabled} 

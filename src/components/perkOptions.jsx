@@ -1,6 +1,6 @@
 // import { useState } from "react";
 import StatusBar from './statusBar';
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export default function PerkOptions({btnType, updatePerks, cost, disabled, backgroundColor, timer}) {
 
@@ -11,36 +11,48 @@ export default function PerkOptions({btnType, updatePerks, cost, disabled, backg
     }
 
     return(
-        <>
+        <AnimatePresence>
             {/* Perk Options */}
             {!disabled ? 
+            <div className='perk-button'>
                 <motion.button 
                     initial={{rotate: 0, backgroundColor: backgroundColor}}
                     whileHover={{scale: 1.05}}
                     whileTap={{scale: 0.9}}
                     onClick={() => updatePerks("money")}
-                    className="perkBtn"
+                    className="perk-content"
                 >
-                    {btnType}
-                    {cost !== -1 &&  <span>cost: ${cost}</span>}
-                    <span>more info...</span>
+                    {cost > 0 && <span className="top-perk-info">cost: ${cost}</span>}
+                    <span className="perk-title">{btnType}</span>
+                    <div className="bottom-perk-info">
+                        <span>xNumber</span>
+                        {/* animate and reveal a small blurp about button */}
+                        <span>Info</span>
+                    </div>
                 </motion.button>
+                <StatusBar key={`${btnType}-off`} currentProgress={0} width="250px" height="20px" startPoint="0%"/>
+            </div>
+
                 :
-                <div className='disabledBtn'>
+                <div className='perk-button'>
                     <motion.button 
                         initial={{rotate: 0, backgroundColor: backgroundColor}}
                         whileHover={{scale: 1.05}}
                         whileTap={{rotate: [0, 10, -10, 0], backgroundColor: "#EF2D56"}}
                         transition={disabledButtonTransistion}
-                        className="perkBtn"
+                        className="perk-content"
                     >
-                        {btnType}
-                        {cost > 0 &&  <span>cost: ${cost}</span>}
-                        <span>more info...</span>
+                        {cost > 0 && <span className="top-perk-info">cost: ${cost}</span>}
+                        <span className="perk-title">{btnType}</span>
+                        <div className="bottom-perk-info">
+                            <span>xNumber</span>
+                            {/* animate and reveal a small blurp about button */}
+                            <span>Info</span>
+                        </div>
                     </motion.button>
-                    <StatusBar currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
+                    <StatusBar key={`${btnType}-on`} currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
                 </div>
             }
-        </>
+        </AnimatePresence>
     );
 }

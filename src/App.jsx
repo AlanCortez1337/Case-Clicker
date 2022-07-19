@@ -32,7 +32,7 @@ function App() {
     setNewEmojis([...newEmojis, {emote: currentEmoji[Math.floor(Math.random() * currentEmoji.length)], id: Math.random()}]);
   };
   // update perks function
-  const modPerks = (perk) => {
+  const modPerks = (perk, cost) => {
     switch (perk) {
       case "workPerk":
         console.log(perk);
@@ -50,7 +50,20 @@ function App() {
         }, 5000);
         break;
       case "gamble":
-        
+        // remove the betting money
+        updateMoney(prev => prev -  cost);
+        setMoneyInteraction("gamble");
+        // calculating if they won
+        let chance = Math.floor(Math.random() * 10)
+        console.log(chance);
+        if(chance < 4) {
+          updateMoney(prev => prev +  (2 * cost));
+          setMoneyInteraction("gamble");
+          // Do a little toast thing
+        } else {
+          //do the other toast thing
+        }
+
     }
   };
 
@@ -65,7 +78,7 @@ function App() {
       <ProgressBar currentProgress={affection} width="400px" height="20px" startPoint="0%"/>
       <Timer/>
       {/* yeah ^ */}
-      <Perks modifyPerks={modPerks}/>
+      <Perks modifyPerks={modPerks} currentMoney={money}/>
 
     </div>
   )

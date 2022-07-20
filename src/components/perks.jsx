@@ -5,25 +5,43 @@ import usePerkStatus from '../hooks/usePerkStatus';
 export default function Perks({modifyPerks, currentMoney}) {
     
     const [showPerks, setShowPerks] = useState("options");
-    const [workDisabled, workCost, workQuantity, workChange, workTime] = usePerkStatus(-1, 32, 5000);
-    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
+    const [workDisabled, workCost, workQuantity, workChange, workTime] = usePerkStatus(-1, -1, 32, 5000);
+    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange, gambleTime] = usePerkStatus(5, -1, 22, 3800);
+    const [plushieDisabled, plushieCost, plushieQuantity, plushieChange, plushieTime] = usePerkStatus(15, 0, 22, 3800);
+    const [bikeDisabled, bikeCost, bikeQuantity, bikeChange, bikeTime] = usePerkStatus(30, -1, 22, 3800);
+    const [violaDisabled, violaCost, violaQuantity, violaChange, violaTime] = usePerkStatus(1000, -1, 22, 3800);
 
 
     const chosenPerk = (perkOption) => {
         // need to disable current perk if necessary
-        if(perkOption === "workPerk") {
-            // disable button
-            workChange(perkOption)
-            // update numbers
-            console.log(workDisabled)
-            modifyPerks(perkOption, workCost)
-        } else if (perkOption === "gamble") {
-            if(currentMoney >= gambleCost) {
+        switch(perkOption) {
+            case "workPerk":
                 // disable button
-                gambleChange(perkOption)
+                workChange(perkOption);
                 // update numbers
-                modifyPerks(perkOption, gambleCost)
-            }
+                modifyPerks(perkOption);
+                break;
+            case "gamble":
+                // disable button
+                gambleChange(perkOption);
+                // update numbers
+                modifyPerks(perkOption, gambleCost);
+                // shoot up a ton of emojis????
+                break;
+            case "plushie":
+                plushieChange(perkOption);
+                modifyPerks(perkOption, plushieCost);
+                break;
+            case "bike":
+                bikeChange(perkOption);
+                modifyPerks(perkOption, bikeCost);
+                break;
+            case "viola":
+                violaChange(perkOption);
+                modifyPerks(perkOption, violaCost);
+                break;
+            default:
+                console.log("ERROR WITH chosenPerk");
         }
     }
 
@@ -39,14 +57,16 @@ export default function Perks({modifyPerks, currentMoney}) {
             <>
                 <PerkButtons 
                     btnType="💰" 
-                    updatePerks={revealPerks} 
+                    updatePerks={() => revealPerks("money")} 
                     cost={-1} 
+                    quantity={-1} 
                     backgroundColor={"#2FBF71"}
                 />
                 <PerkButtons 
                     btnType="😳" 
-                    updatePerks={revealPerks} 
+                    updatePerks={() => revealPerks("affection")} 
                     cost={-1} 
+                    quantity={-1} 
                     backgroundColor={"#EF2D56"}
                 />
             </>
@@ -54,25 +74,60 @@ export default function Perks({modifyPerks, currentMoney}) {
             <>
                 {showPerks === "money" ? 
                 <>
+                    {/* work at AMC */}
                     <PerkButtons 
                         btnType="🍿Work At AMC🍿" 
                         updatePerks={() => chosenPerk("workPerk")} 
                         cost={workCost} 
+                        quantity={workQuantity} 
                         disabled={workDisabled}
                         backgroundColor={"#2FBF71"}
                         timer={workTime}
                     />
+                    {/* gamble */}
                     <PerkButtons 
                         btnType="🎲Gamble🎲"
                         updatePerks={() => chosenPerk("gamble")} 
                         cost={gambleCost} 
+                        quantity={gambleQuantity} 
                         disabled={gambleDisabled} 
                         backgroundColor={"#2FBF71"}
                         timer={gambleTime}
                     />
                 </>
                 :
-                <div>amongus</div>
+                <>
+                    {/* Play with plushie */}
+                    <PerkButtons 
+                        btnType="Play with son" 
+                        updatePerks={() => chosenPerk("plushie")} 
+                        cost={plushieCost} 
+                        quantity={plushieQuantity} 
+                        disabled={plushieDisabled}
+                        backgroundColor={"#2FBF71"}
+                        timer={plushieTime}
+                    />
+                    {/* bike */}
+                    <PerkButtons 
+                        btnType="bike" 
+                        updatePerks={() => chosenPerk("bike")} 
+                        cost={bikeCost} 
+                        quantity={bikeQuantity} 
+                        disabled={bikeDisabled}
+                        backgroundColor={"#2FBF71"}
+                        timer={bikeTime}
+                    />
+                    {/* viola */}
+                    <PerkButtons 
+                        btnType="Viola" 
+                        updatePerks={() => chosenPerk("viola")} 
+                        cost={violaCost} 
+                        quantity={violaQuantity} 
+                        disabled={violaDisabled}
+                        backgroundColor={"#2FBF71"}
+                        timer={violaTime}
+                    />
+                </>
                 }
             </>
             }

@@ -5,6 +5,7 @@ import TapBox from './components/clickableArea'
 import ProgressBar from './components/statusBar'
 import Perks from './components/perks'
 import useCounter from './hooks/useCounter'
+import toast, { Toaster } from 'react-hot-toast'
 
 function App() {
   // reaction state
@@ -28,7 +29,7 @@ function App() {
       setAffection(prevAffection => prevAffection + 1);
       setAffectionInteraction("tap")
     }
-    // console.log(currentEmoji)
+    // the math.random is to choose a random emoji to display from the currentEmoji array
     setNewEmojis([...newEmojis, {emote: currentEmoji[Math.floor(Math.random() * currentEmoji.length)], id: Math.random()}]);
   };
   // update perks function
@@ -38,7 +39,7 @@ function App() {
         console.log(perk);
         setAffectionModifier(2);
         setAffectionInteraction("timer");
-        setMoneyModifier(5);
+        setMoneyModifier(11);
         setMoneyInteraction("timer");
         setCurrentEmoji(["💪", "💸", "🍿"]);
         setTimeout(()=>{
@@ -47,6 +48,9 @@ function App() {
           setMoneyModifier(1);
           setMoneyInteraction("timer");
           setCurrentEmoji(["😳","👍", "🤝"]);
+          toast('You Finished your shift!', {
+            icon: '👏',
+          });
         }, 5000);
         break;
       case "gamble":
@@ -54,16 +58,31 @@ function App() {
         updateMoney(prev => prev -  cost);
         setMoneyInteraction("gamble");
         // calculating if they won
-        let chance = Math.floor(Math.random() * 10)
+        let chance = Math.floor(Math.random() * 10);
         console.log(chance);
-        if(chance < 4) {
-          updateMoney(prev => prev +  (2 * cost));
-          setMoneyInteraction("gamble");
-          // Do a little toast thing
-        } else {
-          //do the other toast thing
-        }
-
+        setTimeout(()=>{
+          if(chance < 4) {
+            updateMoney(prev => prev +  (2 * cost));
+            setMoneyInteraction("gamble");
+            // Do a little toast thing
+            toast.success("YOU DOUBLED YOUR EARNINGS");
+          } else {
+            //do the other toast thing
+            toast.error("You have terrible luck");
+          }
+        },3800);
+        break;
+      case "plushie":
+        console.log("son son son")
+        break;
+      case "bike":
+        console.log("bike bike bike")
+        break;
+      case "viola":
+        console.log("viola viola viola")
+        break;
+      default:
+        console.log("ERROR WITH modPerks");
     }
   };
 
@@ -79,7 +98,7 @@ function App() {
       <Timer/>
       {/* yeah ^ */}
       <Perks modifyPerks={modPerks} currentMoney={money}/>
-
+      <Toaster />
     </div>
   )
 }

@@ -28,5 +28,5 @@ export default function useCounter (time, timeInterval, counterType, modifier) {
         }
     }, [currentTime]);
 
-    return [currentTime, setCurrentTime, setInteraction, setMod];
+    return [currentTime, setCurrentTime, setInteraction, setMod, mod];
 }

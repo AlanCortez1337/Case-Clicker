@@ -13,9 +13,12 @@ function App() {
   const [currentEmoji, setCurrentEmoji] = useState(["😳","👍", "🤝"]);
   // Custom hook to manage the affection
   // might need to change setModifier to modifier??????
-  const [affection, setAffection, setAffectionInteraction, setAffectionModifier] = useCounter(45, 200, "decrement", 1);
-  const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(0, 2500, "increment", 1);
+  const [affection, setAffection, setAffectionInteraction, setAffectionModifier, affectionModifier] = useCounter(45, 200, "decrement", 1);
+  const [prevAffectionMod, setPrevAffectionMod] = useState(affectionModifier);
+  const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(10000, 2500, "increment", 1);
   // move timer up here
+  // unique bike toasts
+  const bikeToasts = ["You ate the bike chain >:(", "You popped a tire", "You could use a new paint job", "Bike exploded", "Someone stole the bell"]
   // A purge to remove old emotes that no logner exist
   useEffect(()=>{
     if (newEmojis.length >= 10) {
@@ -76,6 +79,20 @@ function App() {
         console.log("son son son")
         break;
       case "bike":
+        //storing the previous affection mod to change back to normal once this is done
+        setPrevAffectionMod(affectionModifier);
+        // remove the bike money
+        updateMoney(prev => prev -  cost);
+        setAffectionModifier(-0.5);
+        setAffectionInteraction("timer")
+        setTimeout(()=>{
+          setAffectionModifier(prevAffectionMod);
+        setAffectionInteraction("timer")
+
+          toast(bikeToasts[(Math.floor(Math.random() * 4))], {
+            icon: '🚲',
+          });
+        }, 5000);
         console.log("bike bike bike")
         break;
       case "viola":

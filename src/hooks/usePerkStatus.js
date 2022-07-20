@@ -13,8 +13,12 @@ export default function usePerkStatus (price, number, timer, lifeSpan) {
     useEffect(()=>{
         if(shouldUpdate !== "") {
             setDisabled(true);
-            if (shouldUpdate !== "gamble") {
+            if (shouldUpdate === "gamble" || shouldUpdate === "viola") {
                 setCost(prevCost => prevCost * 2);
+            } else if (shouldUpdate === "plushie") {
+                setCost(prevCost => prevCost + 10);
+            } else if (shouldUpdate === "bike") {
+                setCost(prevCost => prevCost + 30);
             }
             updateTime(102)
             setShouldUpdate("nope");
@@ -27,5 +31,5 @@ export default function usePerkStatus (price, number, timer, lifeSpan) {
     },[shouldUpdate])
 
 
-    return [disabled, cost, quantity, setShouldUpdate, time];
+    return [disabled, cost, setShouldUpdate, time, quantity, setQuantity];
 }

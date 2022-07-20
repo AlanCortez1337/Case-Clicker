@@ -5,9 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 export default function PerkOptions({btnType, updatePerks, cost, quantity, disabled, backgroundColor, timer}) {
 
     const handleUpdate = () => {
-        if(!disabled) {
-            // ???????
-            updatePerks("money")
+        if(!disabled || btnType === "Play with son") {
+            updatePerks()
         }
     }
 
@@ -22,9 +21,9 @@ export default function PerkOptions({btnType, updatePerks, cost, quantity, disab
                     className="perk-content"
                 ><span className="perk-title">{btnType}</span></motion.button>
                 {!disabled ? 
-                <StatusBar key={`${btnType}-off`} currentProgress={0} width="250px" height="20px" startPoint="0%"/>
+                    <StatusBar key={`${btnType}-off`} currentProgress={0} width="250px" height="20px" startPoint="0%"/>
                     :
-                <StatusBar key={`${btnType}-on`} currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
+                    <StatusBar key={`${btnType}-on`} currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
                 }
                 <span className="top-perk-info">Info</span>
                 <div className="bottom-perk-info">
@@ -33,6 +32,6 @@ export default function PerkOptions({btnType, updatePerks, cost, quantity, disab
                         {cost > 0 && <span>cost: ${cost}</span>}
                     </div>
             </div>
-                </AnimatePresence>
+        </AnimatePresence>
     );
 }

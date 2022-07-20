@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import PerkButtons from './perkOptions'
 import usePerkStatus from '../hooks/usePerkStatus';
+import toast from 'react-hot-toast'
+
 
 export default function Perks({modifyPerks, currentMoney}) {
     
     const [showPerks, setShowPerks] = useState("options");
-    const [workDisabled, workCost, workQuantity, workChange, workTime] = usePerkStatus(-1, -1, 32, 5000);
-    const [gambleDisabled, gambleCost, gambleQuantity, gambleChange, gambleTime] = usePerkStatus(5, -1, 22, 3800);
-    const [plushieDisabled, plushieCost, plushieQuantity, plushieChange, plushieTime] = usePerkStatus(15, 0, 22, 3800);
-    const [bikeDisabled, bikeCost, bikeQuantity, bikeChange, bikeTime] = usePerkStatus(30, -1, 22, 3800);
-    const [violaDisabled, violaCost, violaQuantity, violaChange, violaTime] = usePerkStatus(1000, -1, 22, 3800);
+    const [workDisabled, workCost, workChange, workTime, workQuantity] = usePerkStatus(-1, -1, 32, 5000);
+    const [gambleDisabled, gambleCost, gambleChange, gambleTime, gambleQuantity] = usePerkStatus(5, -1, 22, 3800);
+    const [plushieDisabled, plushieCost, plushieChange, plushieTime, plushieQuantity, updatePlushieQuantity] = usePerkStatus(15, 0, 22, 3800);
+    const [bikeDisabled, bikeCost, bikeChange, bikeTime, bikeQuantity] = usePerkStatus(30, -1, 32, 5000);
+    const [violaDisabled, violaCost, violaChange, violaTime, violaQuantity] = usePerkStatus(500, -1, 22, 3800);
 
 
     const chosenPerk = (perkOption) => {
@@ -22,23 +24,55 @@ export default function Perks({modifyPerks, currentMoney}) {
                 modifyPerks(perkOption);
                 break;
             case "gamble":
-                // disable button
-                gambleChange(perkOption);
-                // update numbers
-                modifyPerks(perkOption, gambleCost);
-                // shoot up a ton of emojis????
+                if (currentMoney >= gambleCost) {
+                    // disable button
+                    gambleChange(perkOption);
+                    // update numbers
+                    modifyPerks(perkOption, gambleCost);
+                    // shoot up a ton of emojis????
+                } else {
+                    toast.error("You dont have enough money for this!")
+                }
                 break;
             case "plushie":
-                plushieChange(perkOption);
-                modifyPerks(perkOption, plushieCost);
+                // buy
+                if (currentMoney >= plushieCost) {
+                    // disable button
+                    if(plushieQuantity < 5) {
+                        updatePlushieQuantity(prev => prev + 1);
+                        
+                        // update numbers
+                        // shoot up a ton of emojis????
+                    } else {
+                        toast.error("5 plushies max")
+                    }
+                } else {
+                    toast.error("You dont have enough money for this!")
+                }
+                // update numbers
+
                 break;
             case "bike":
-                bikeChange(perkOption);
-                modifyPerks(perkOption, bikeCost);
+                if (currentMoney >= bikeCost) {
+                    // disable button
+                    bikeChange(perkOption);
+                    // update numbers
+                    modifyPerks(perkOption, bikeCost);
+                    // shoot up a ton of emojis????
+                } else {
+                    toast.error("You dont have enough money for this!")
+                }
                 break;
             case "viola":
-                violaChange(perkOption);
-                modifyPerks(perkOption, violaCost);
+                if (currentMoney >= violaCost) {
+                    // disable button
+                    violaChange(perkOption);
+                    // update numbers
+                    modifyPerks(perkOption, violaCost);
+                    // shoot up a ton of emojis????
+                } else {
+                    toast.error("You dont have enough money for this!")
+                }
                 break;
             default:
                 console.log("ERROR WITH chosenPerk");

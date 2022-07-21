@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import useCounter from './useCounter';
 
 
-export default function usePerkStatus (price, number, timer, lifeSpan) {
+export default function usePerkStatus (price, timer, lifeSpan) {
     const [disabled, setDisabled] = useState(false);
     const [cost, setCost] = useState(price);
-    const [quantity, setQuantity] = useState(number); 
     const [shouldUpdate, setShouldUpdate] = useState("");
     // currently hard set to only work for the workAMC time btw
     const [time, updateTime] = useCounter(102, timer, "decrement", 1);
@@ -16,9 +15,9 @@ export default function usePerkStatus (price, number, timer, lifeSpan) {
             if (shouldUpdate === "gamble" || shouldUpdate === "viola") {
                 setCost(prevCost => prevCost * 2);
             } else if (shouldUpdate === "plushie") {
-                setCost(prevCost => prevCost + 10);
+                setCost(prevCost => prevCost + 50);
             } else if (shouldUpdate === "bike") {
-                setCost(prevCost => prevCost + 30);
+                setCost(prevCost => (2 * prevCost) + 30);
             }
             updateTime(102)
             setShouldUpdate("nope");
@@ -31,5 +30,5 @@ export default function usePerkStatus (price, number, timer, lifeSpan) {
     },[shouldUpdate])
 
 
-    return [disabled, cost, setShouldUpdate, time, quantity, setQuantity];
+    return [disabled, cost, setShouldUpdate, time];
 }

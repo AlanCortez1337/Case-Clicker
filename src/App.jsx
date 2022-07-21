@@ -14,10 +14,12 @@ function App() {
   // Custom hook to manage the affection
   // might need to change setModifier to modifier??????
   const [affection, setAffection, setAffectionInteraction, setAffectionModifier, affectionModifier] = useCounter(45, 200, "decrement", 1);
+  const [tapMod, setTapMod] = useState(1)
   const [prevAffectionMod, setPrevAffectionMod] = useState(affectionModifier);
   const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(10000, 2500, "increment", 1);
   // move timer up here
-  // unique bike toasts
+  // unique toasts to display
+  const plushieToasts = ["It ran away", "It some how became inside out", "wear and tear really shows after 10 seconds doesnt it?", "A NEW AMONGUS PLUSHIE DROPPED", "Enough plushie time, its among us time!!!"]
   const bikeToasts = ["You ate the bike chain >:(", "You popped a tire", "You could use a new paint job", "Bike exploded", "Someone stole the bell"]
   // A purge to remove old emotes that no logner exist
   useEffect(()=>{
@@ -29,7 +31,7 @@ function App() {
   // increments affection meter and displays emojis
   const incrementAffection = () => {
     if(affection < 100) {
-      setAffection(prevAffection => prevAffection + 1);
+      setAffection(prevAffection => prevAffection + tapMod);
       setAffectionInteraction("tap")
     }
     // the math.random is to choose a random emoji to display from the currentEmoji array
@@ -76,24 +78,31 @@ function App() {
         },3800);
         break;
       case "plushie":
-        console.log("son son son")
+        // make this scalable according to the decrement mod in the future
+        setTapMod(prev => prev + 0.25)
+        setTimeout(()=>{
+          setTapMod(prev => prev - 0.25)
+          toast(plushieToasts[(Math.floor(Math.random() * 4))], {
+            icon: '🧑‍🚀',
+          });
+        }, 15000)
         break;
       case "bike":
         //storing the previous affection mod to change back to normal once this is done
         setPrevAffectionMod(affectionModifier);
         // remove the bike money
         updateMoney(prev => prev -  cost);
+        // perk benefit
         setAffectionModifier(-0.5);
         setAffectionInteraction("timer")
+        // reset and notify that the perk has run out
         setTimeout(()=>{
           setAffectionModifier(prevAffectionMod);
-        setAffectionInteraction("timer")
-
+          setAffectionInteraction("timer")
           toast(bikeToasts[(Math.floor(Math.random() * 4))], {
             icon: '🚲',
           });
         }, 5000);
-        console.log("bike bike bike")
         break;
       case "viola":
         console.log("viola viola viola")
@@ -111,6 +120,8 @@ function App() {
       <Reaction emojis={newEmojis}/>
       {/* turn this into a compoment called stats or something */}
       <div>Affection Levels: {affection}, Money: {money}</div>
+      <div>tap mod: {tapMod}</div>
+      
       <ProgressBar currentProgress={affection} width="400px" height="20px" startPoint="0%"/>
       <Timer/>
       {/* yeah ^ */}

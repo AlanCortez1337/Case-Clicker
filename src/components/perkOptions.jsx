@@ -2,10 +2,10 @@
 import StatusBar from './statusBar';
 import { AnimatePresence, motion } from 'framer-motion'
 
-export default function PerkOptions({btnType, updatePerks, cost, quantity, disabled, backgroundColor, timer}) {
+export default function PerkOptions({btnType, updatePerks, cost, disabled, backgroundColor, timer}) {
 
     const handleUpdate = () => {
-        if(!disabled || btnType === "Play with son") {
+        if(!disabled) {
             updatePerks()
         }
     }
@@ -27,7 +27,6 @@ export default function PerkOptions({btnType, updatePerks, cost, quantity, disab
                 }
                 <span className="top-perk-info">Info</span>
                 <div className="bottom-perk-info">
-                        {quantity !== -1 && <span>x{quantity}</span>}
                         {/* animate and reveal a small blurp about button */}
                         {cost > 0 && <span>cost: ${cost}</span>}
                     </div>

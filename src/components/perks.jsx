@@ -7,11 +7,11 @@ import toast from 'react-hot-toast'
 export default function Perks({modifyPerks, currentMoney}) {
     
     const [showPerks, setShowPerks] = useState("options");
-    const [workDisabled, workCost, workChange, workTime, workQuantity] = usePerkStatus(-1, -1, 32, 5000);
-    const [gambleDisabled, gambleCost, gambleChange, gambleTime, gambleQuantity] = usePerkStatus(5, -1, 22, 3800);
-    const [plushieDisabled, plushieCost, plushieChange, plushieTime, plushieQuantity, updatePlushieQuantity] = usePerkStatus(15, 0, 22, 3800);
-    const [bikeDisabled, bikeCost, bikeChange, bikeTime, bikeQuantity] = usePerkStatus(30, -1, 32, 5000);
-    const [violaDisabled, violaCost, violaChange, violaTime, violaQuantity] = usePerkStatus(500, -1, 22, 3800);
+    const [workDisabled, workCost, workChange, workTime] = usePerkStatus(-1, 32, 5000);
+    const [gambleDisabled, gambleCost, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
+    const [plushieDisabled, plushieCost, plushieChange, plushieTime] = usePerkStatus(15, 90, 10000);
+    const [bikeDisabled, bikeCost, bikeChange, bikeTime] = usePerkStatus(30, 32, 5000);
+    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(500, 22, 3800);
 
 
     const chosenPerk = (perkOption) => {
@@ -33,24 +33,6 @@ export default function Perks({modifyPerks, currentMoney}) {
                 } else {
                     toast.error("You dont have enough money for this!")
                 }
-                break;
-            case "plushie":
-                // buy
-                if (currentMoney >= plushieCost) {
-                    // disable button
-                    if(plushieQuantity < 5) {
-                        updatePlushieQuantity(prev => prev + 1);
-                        
-                        // update numbers
-                        // shoot up a ton of emojis????
-                    } else {
-                        toast.error("5 plushies max")
-                    }
-                } else {
-                    toast.error("You dont have enough money for this!")
-                }
-                // update numbers
-
                 break;
             case "bike":
                 if (currentMoney >= bikeCost) {
@@ -79,6 +61,24 @@ export default function Perks({modifyPerks, currentMoney}) {
         }
     }
 
+
+    const plushiePerk = () => {
+        // buy
+        if (currentMoney >= plushieCost) {
+            // disable button
+
+            plushieChange("plushie");
+            modifyPerks("plushie", plushieCost);
+            
+            // update numbers
+            // shoot up a ton of emojis????
+        } else {
+            toast.error("You dont have enough money for this!")
+        }
+        // update numbers
+
+    }
+
     const revealPerks = (option) => {
         setShowPerks(option);
     }
@@ -93,14 +93,12 @@ export default function Perks({modifyPerks, currentMoney}) {
                     btnType="💰" 
                     updatePerks={() => revealPerks("money")} 
                     cost={-1} 
-                    quantity={-1} 
                     backgroundColor={"#2FBF71"}
                 />
                 <PerkButtons 
                     btnType="😳" 
                     updatePerks={() => revealPerks("affection")} 
-                    cost={-1} 
-                    quantity={-1} 
+                    cost={-1}  
                     backgroundColor={"#EF2D56"}
                 />
             </>
@@ -113,7 +111,6 @@ export default function Perks({modifyPerks, currentMoney}) {
                         btnType="🍿Work At AMC🍿" 
                         updatePerks={() => chosenPerk("workPerk")} 
                         cost={workCost} 
-                        quantity={workQuantity} 
                         disabled={workDisabled}
                         backgroundColor={"#2FBF71"}
                         timer={workTime}
@@ -123,7 +120,6 @@ export default function Perks({modifyPerks, currentMoney}) {
                         btnType="🎲Gamble🎲"
                         updatePerks={() => chosenPerk("gamble")} 
                         cost={gambleCost} 
-                        quantity={gambleQuantity} 
                         disabled={gambleDisabled} 
                         backgroundColor={"#2FBF71"}
                         timer={gambleTime}
@@ -134,9 +130,8 @@ export default function Perks({modifyPerks, currentMoney}) {
                     {/* Play with plushie */}
                     <PerkButtons 
                         btnType="Play with son" 
-                        updatePerks={() => chosenPerk("plushie")} 
+                        updatePerks={() => plushiePerk()} 
                         cost={plushieCost} 
-                        quantity={plushieQuantity} 
                         disabled={plushieDisabled}
                         backgroundColor={"#2FBF71"}
                         timer={plushieTime}
@@ -146,7 +141,6 @@ export default function Perks({modifyPerks, currentMoney}) {
                         btnType="bike" 
                         updatePerks={() => chosenPerk("bike")} 
                         cost={bikeCost} 
-                        quantity={bikeQuantity} 
                         disabled={bikeDisabled}
                         backgroundColor={"#2FBF71"}
                         timer={bikeTime}
@@ -156,7 +150,6 @@ export default function Perks({modifyPerks, currentMoney}) {
                         btnType="Viola" 
                         updatePerks={() => chosenPerk("viola")} 
                         cost={violaCost} 
-                        quantity={violaQuantity} 
                         disabled={violaDisabled}
                         backgroundColor={"#2FBF71"}
                         timer={violaTime}

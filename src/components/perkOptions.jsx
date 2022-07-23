@@ -1,8 +1,12 @@
-// import { useState } from "react";
-import StatusBar from './statusBar';
 import { AnimatePresence, motion } from 'framer-motion'
+import StatusBar from './statusBar';
+import Gamble from '/gamble.webp'
+import AMC from '/amc.webp'
+import Plushie from '/amongus.webp'
+import Bike from '/bike.webp'
+import Viola from '/viola.webp'
 
-export default function PerkOptions({btnType, updatePerks, cost, disabled, backgroundColor, timer}) {
+export default function PerkOptions({btnName, updatePerks, cost, disabled, timer, info}) {
 
     const handleUpdate = () => {
         if(!disabled) {
@@ -14,22 +18,63 @@ export default function PerkOptions({btnType, updatePerks, cost, disabled, backg
         <AnimatePresence>
             <div className='perk-button'>
                 <motion.button 
-                    initial={{rotate: 0, backgroundColor: backgroundColor}}
-                    whileHover={{scale: 1.05}}
-                    whileTap={{scale: 0.9}}
+                    // initial={{rotate: 0}}
+                    // whileHover={{scale: 1.05}}
+                    // whileTap={{scale: 0.9}}
                     onClick={() => handleUpdate()}
                     className="perk-content"
-                ><span className="perk-title">{btnType}</span></motion.button>
+                >
+                    {/* Unique button image and title */}
+                    {btnName === "AMC" ?
+                        <div className='perk-container'>
+                            <img src={AMC} alt="work at amc"/>
+                            <h3>Work</h3>
+                        </div>
+                        :
+                        <>
+                            {btnName === "Gamble" ? 
+                                <div className='perk-container'>
+                                    <img src={Gamble} alt="gamble" />
+                                    <h3>Gamble</h3>
+                                </div>
+                                :
+                                <>
+                                    {btnName === "Plushie" ? 
+                                        <div className='perk-container'>
+                                            <img src={Plushie} alt="play with plushie" />
+                                            <h3>Son</h3>
+                                        </div>
+                                        :
+                                        <>
+                                            {btnName === "Bike" ? 
+                                            <div className='perk-container'>
+                                                <img src={Bike} alt="bike it off" /> 
+                                                <h3>Bike</h3>
+                                            </div>
+                                                :
+                                                <div className='perk-container'>
+                                                    <img src={Viola} alt="Viola" />
+                                                    <h3>Hang Out</h3>
+                                                </div>
+                                            }
+                                        </>
+                                    }
+                                </>
+                            }
+                        </>
+                    } 
+                </motion.button>
                 {!disabled ? 
-                    <StatusBar key={`${btnType}-off`} currentProgress={0} width="250px" height="20px" startPoint="0%"/>
+                    <StatusBar key={`${btnName}-off`} currentProgress={0} width="100%" height="10px" startPoint="0%" variant={false}/>
                     :
-                    <StatusBar key={`${btnType}-on`} currentProgress={timer} width="250px" height="20px" startPoint="100%"/>
+                    <StatusBar key={`${btnName}-on`} currentProgress={timer} width="100%" height="10px" startPoint="100%" variant={false}/>
                 }
-                <span className="top-perk-info">Info</span>
-                <div className="bottom-perk-info">
-                        {/* animate and reveal a small blurp about button */}
-                        {cost > 0 && <span>cost: ${cost}</span>}
-                    </div>
+
+
+                <div className='perk-blurp'>
+                    {cost !== -1 && <h3>Cost: ${cost}</h3>}
+                    <p>{info}</p>
+                </div>
             </div>
         </AnimatePresence>
     );

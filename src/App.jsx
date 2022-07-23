@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import Reaction from './components/reactions'
-import Timer from './components/timer'
 import TapBox from './components/clickableArea'
-import ProgressBar from './components/statusBar'
 import Perks from './components/perks'
+import Stats from './components/displayStats'
 import useCounter from './hooks/useCounter'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -14,9 +13,10 @@ function App() {
   // Custom hook to manage the affection
   // might need to change setModifier to modifier??????
   const [affection, setAffection, setAffectionInteraction, setAffectionModifier, affectionModifier] = useCounter(45, 200, "decrement", 1);
-  const [tapMod, setTapMod] = useState(1)
+  const [tapMod, setTapMod] = useState(1);
+  const [lives, setLives] = useState(3);
   const [prevAffectionMod, setPrevAffectionMod] = useState(affectionModifier);
-  const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(10000, 2500, "increment", 1);
+  const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(0, 2500, "increment", 1);
   // move timer up here
   // unique toasts to display
   const plushieToasts = ["It ran away", "It some how became inside out", "wear and tear really shows after 10 seconds doesnt it?", "A NEW AMONGUS PLUSHIE DROPPED", "Enough plushie time, its among us time!!!"]
@@ -28,6 +28,16 @@ function App() {
       ...newEmojis.slice(6, newEmojis.length)]);
     }
   },[newEmojis])
+  //lives
+useEffect(()=>{
+  if(affection < 5 && lives > 0) {
+    setAffection(40)
+    setAffectionInteraction("reset")
+    setLives(prev => prev - 1)
+  }
+},[affection])
+
+
   // increments affection meter and displays emojis
   const incrementAffection = () => {
     if(affection < 100) {
@@ -85,7 +95,7 @@ function App() {
           toast(plushieToasts[(Math.floor(Math.random() * 4))], {
             icon: '🧑‍🚀',
           });
-        }, 15000)
+        }, 10000)
         break;
       case "bike":
         //storing the previous affection mod to change back to normal once this is done
@@ -105,7 +115,13 @@ function App() {
         }, 5000);
         break;
       case "viola":
-        console.log("viola viola viola")
+        updateMoney(prev => prev -  cost);
+        setTimeout(()=>{
+          setLives(prev => prev + 1);
+          toast("you gained an extra life >3", {
+            icon: '❤️',
+          });
+        }, 3800)
         break;
       default:
         console.log("ERROR WITH modPerks");
@@ -116,15 +132,8 @@ function App() {
     <div className='game-grid'>
       <Reaction emojis={newEmojis}/>
       <TapBox currentAffection={affection} updateAffection={incrementAffection}/>
-      
       <Reaction emojis={newEmojis}/>
-      {/* turn this into a compoment called stats or something */}
-      <div>Affection Levels: {affection}, Money: {money}</div>
-      <div>tap mod: {tapMod}</div>
-      
-      <ProgressBar currentProgress={affection} width="400px" height="20px" startPoint="0%"/>
-      <Timer/>
-      {/* yeah ^ */}
+      <Stats affectionMeter={affection} currentMoney={money} currentLives={lives}/>
       <Perks modifyPerks={modPerks} currentMoney={money}/>
       <Toaster />
     </div>

@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { IoCaretBackCircle } from "react-icons/io5";
+import { motion } from 'framer-motion';
 import PerkButtons from './perkOptions'
 import usePerkStatus from '../hooks/usePerkStatus';
 import toast from 'react-hot-toast'
@@ -11,7 +13,7 @@ export default function Perks({modifyPerks, currentMoney}) {
     const [gambleDisabled, gambleCost, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
     const [plushieDisabled, plushieCost, plushieChange, plushieTime] = usePerkStatus(15, 90, 10000);
     const [bikeDisabled, bikeCost, bikeChange, bikeTime] = usePerkStatus(30, 32, 5000);
-    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(500, 22, 3800);
+    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(100, 22, 3800);
 
 
     const chosenPerk = (perkOption) => {
@@ -29,6 +31,18 @@ export default function Perks({modifyPerks, currentMoney}) {
                     gambleChange(perkOption);
                     // update numbers
                     modifyPerks(perkOption, gambleCost);
+                    // shoot up a ton of emojis????
+                } else {
+                    toast.error("You dont have enough money for this!")
+                }
+                break;
+            case "plushie":
+                // buy
+                if (currentMoney >= plushieCost) {
+                    // disable button
+                    plushieChange(perkOption);
+                    // update numbers
+                    modifyPerks(perkOption, plushieCost);
                     // shoot up a ton of emojis????
                 } else {
                     toast.error("You dont have enough money for this!")
@@ -61,103 +75,49 @@ export default function Perks({modifyPerks, currentMoney}) {
         }
     }
 
-
-    const plushiePerk = () => {
-        // buy
-        if (currentMoney >= plushieCost) {
-            // disable button
-
-            plushieChange("plushie");
-            modifyPerks("plushie", plushieCost);
-            
-            // update numbers
-            // shoot up a ton of emojis????
-        } else {
-            toast.error("You dont have enough money for this!")
-        }
-        // update numbers
-
-    }
-
-    const revealPerks = (option) => {
-        setShowPerks(option);
-    }
-
     return (
-        <div className="perks">
-            <button onClick={() => revealPerks("options")}>back btn{showPerks}</button>
-            {showPerks === "options" ? 
-            
-            <>
-                <PerkButtons 
-                    btnType="💰" 
-                    updatePerks={() => revealPerks("money")} 
-                    cost={-1} 
-                    backgroundColor={"#2FBF71"}
-                />
-                <PerkButtons 
-                    btnType="😳" 
-                    updatePerks={() => revealPerks("affection")} 
-                    cost={-1}  
-                    backgroundColor={"#EF2D56"}
-                />
-            </>
-            :
-            <>
-                {showPerks === "money" ? 
-                <>
-                    {/* work at AMC */}
-                    <PerkButtons 
-                        btnType="🍿Work At AMC🍿" 
-                        updatePerks={() => chosenPerk("workPerk")} 
-                        cost={workCost} 
-                        disabled={workDisabled}
-                        backgroundColor={"#2FBF71"}
-                        timer={workTime}
-                    />
-                    {/* gamble */}
-                    <PerkButtons 
-                        btnType="🎲Gamble🎲"
-                        updatePerks={() => chosenPerk("gamble")} 
-                        cost={gambleCost} 
-                        disabled={gambleDisabled} 
-                        backgroundColor={"#2FBF71"}
-                        timer={gambleTime}
-                    />
-                </>
-                :
-                <>
-                    {/* Play with plushie */}
-                    <PerkButtons 
-                        btnType="Play with son" 
-                        updatePerks={() => plushiePerk()} 
-                        cost={plushieCost} 
-                        disabled={plushieDisabled}
-                        backgroundColor={"#2FBF71"}
-                        timer={plushieTime}
-                    />
-                    {/* bike */}
-                    <PerkButtons 
-                        btnType="bike" 
-                        updatePerks={() => chosenPerk("bike")} 
-                        cost={bikeCost} 
-                        disabled={bikeDisabled}
-                        backgroundColor={"#2FBF71"}
-                        timer={bikeTime}
-                    />
-                    {/* viola */}
-                    <PerkButtons 
-                        btnType="Viola" 
-                        updatePerks={() => chosenPerk("viola")} 
-                        cost={violaCost} 
-                        disabled={violaDisabled}
-                        backgroundColor={"#2FBF71"}
-                        timer={violaTime}
-                    />
-                </>
-                }
-            </>
-            }
-        </div>
+        <section className="perk-menu">
+            <h1>PERKS!!!!</h1>
+            <PerkButtons 
+                btnName="AMC" 
+                updatePerks={() => chosenPerk("workPerk")} 
+                cost={workCost} 
+                disabled={workDisabled}
+                timer={workTime}
+                info="Earn more money at the cost of happiness"
+            />
+            <PerkButtons 
+                btnName="Gamble"
+                updatePerks={() => chosenPerk("gamble")} 
+                cost={gambleCost} 
+                disabled={gambleDisabled} 
+                timer={gambleTime}
+                info="Gamble for a chance to double your bet"
+            />
+            <PerkButtons 
+                btnName="Plushie" 
+                updatePerks={() => chosenPerk("plushie")} 
+                cost={plushieCost} 
+                disabled={plushieDisabled}
+                timer={plushieTime}
+                info="Tapping with this friend increases the effectiveness"
+            />
+            <PerkButtons 
+                btnName="Bike" 
+                updatePerks={() => chosenPerk("bike")} 
+                cost={bikeCost} 
+                disabled={bikeDisabled}
+                timer={bikeTime}
+                info="Passively become happy for a short time"
+            />
+            <PerkButtons 
+                btnName="Viola" 
+                updatePerks={() => chosenPerk("viola")} 
+                cost={violaCost} 
+                disabled={violaDisabled}
+                timer={violaTime}
+                info="Gain an extra life"
+            />
+        </section>
     );
 }

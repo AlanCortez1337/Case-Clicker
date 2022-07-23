@@ -20,7 +20,8 @@ export default function usePerkStatus (price, timer, lifeSpan) {
                 setCost(prevCost => (2 * prevCost) + 30);
             }
             updateTime(102)
-            setShouldUpdate("nope");
+            setShouldUpdate("restart time");
+            // how long until it should become undisabled
             setTimeout(()=> {
                 setDisabled(false);
                 updateTime(0)

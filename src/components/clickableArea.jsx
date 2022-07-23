@@ -59,7 +59,6 @@ export default function ClickableArea({currentAffection, updateAffection}) {
             transition={rotateTransition}
             src={Icon} alt="clickable area" />
             <Reaction emojis={currentEmotion}/>
-
         </div>
     );
 }

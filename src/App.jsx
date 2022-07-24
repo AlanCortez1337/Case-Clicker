@@ -4,6 +4,7 @@ import TapBox from './components/clickableArea'
 import Perks from './components/perks'
 import Stats from './components/displayStats'
 import useCounter from './hooks/useCounter'
+import Title from './components/title'
 import toast, { Toaster } from 'react-hot-toast'
 
 function App() {
@@ -130,9 +131,10 @@ useEffect(()=>{
 
   return (
     <div className='game-grid'>
-      <Reaction emojis={newEmojis}/>
-      <TapBox currentAffection={affection} updateAffection={incrementAffection}/>
-      <Reaction emojis={newEmojis}/>
+      <Title/>
+      <Reaction emojis={newEmojis} variant={1}/>
+      <TapBox updateAffection={incrementAffection}/>
+      <Reaction emojis={newEmojis} variant={2}/>
       <Stats affectionMeter={affection} currentMoney={money} currentLives={lives}/>
       <Perks modifyPerks={modPerks} currentMoney={money}/>
       <Toaster />

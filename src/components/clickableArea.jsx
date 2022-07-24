@@ -1,47 +1,7 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Reaction from './reactions'
 import Icon from '../favicon.svg'
 
-export default function ClickableArea({currentAffection, updateAffection}) {
-    const [currentEmotion, setCurrentEmotion] = useState([]);
-    // adding new emojis to display based on the meter
-    useEffect(()=>{
-        if (currentAffection === 10) {
-          setCurrentEmotion([...currentEmotion,
-            {emote: "😈", id: Math.random()}, 
-            {emote: "😈", id: Math.random()}, 
-            {emote: "😈", id: Math.random()}
-          ]);
-        } else if (currentAffection === 25) {
-          setCurrentEmotion([...currentEmotion,
-            {emote: "😡", id: Math.random()}, 
-            {emote: "😡", id: Math.random()}, 
-            {emote: "😡", id: Math.random()} 
-          ]);
-          
-        } else if (currentAffection === 50) {
-          setCurrentEmotion([...currentEmotion,
-            {emote: "😔", id: Math.random()}, 
-            {emote: "😔", id: Math.random()}, 
-            {emote: "😔", id: Math.random()}
-          ]);
-        } else if (currentAffection === 75) {
-          setCurrentEmotion([...currentEmotion,
-            {emote: "😐", id: Math.random()}, 
-            {emote: "😐", id: Math.random()}, 
-            {emote: "😐", id: Math.random()}
-          ]);
-        } 
-    }, [currentAffection]);
-    // purging the old emojis to not cause performance issues
-    useEffect(()=> {
-        if (currentEmotion.length >= 10) {
-            setCurrentEmotion([...currentEmotion.slice(0, 1),
-            ...currentEmotion.slice(2, currentEmotion.length)]);
-        }
-    }, [currentEmotion])   
-    
+export default function ClickableArea({updateAffection}) {
 
     const rotateTransition = {
         ease: "easeInOut",
@@ -58,7 +18,6 @@ export default function ClickableArea({currentAffection, updateAffection}) {
             whileTap={{ scale: 0.9 }}
             transition={rotateTransition}
             src={Icon} alt="clickable area" />
-            <Reaction emojis={currentEmotion}/>
         </div>
     );
 }

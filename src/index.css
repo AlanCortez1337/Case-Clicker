@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
 :root {
   --progress-bar-bg: #f0f0f0;
   --gain-money-btn: #2FBF71;
   --gain-affection-btn: #EF2D56;
   --background-menu: #212D40;
-  --background: #364156;
-  --borders: #11151C;
+  --background: #3B291D;
+  --borders: #251A12;
   --text: #f8f8f8;
 }
 
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Cabin', sans-serif;
+  font-family: 'Mochiy Pop One', sans-serif;
   color: var(--text);
 }
 .game-grid {
@@ -20,7 +20,22 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr) 0fr;
   grid-template-rows: repeat(2, 1fr) 0fr;
+  background-image: url("/forest-bg.webp");
+  background-repeat: no-repeat;
+  background-size: 1620px 1000px;
+
+}
+/* Title */
+.title-box {
+  grid-column: span 3;
+  width: 250px;
+  height: 50px;
+  justify-self: center;
   background-color: var(--background);
+  border: var(--borders) 6px solid;
+  border-radius: 25px;
+  padding: 25px;
+  margin: 30px;
 }
 /* Reaction Box */
 .reaction-box {
@@ -28,7 +43,13 @@
   justify-content: center;
   grid-row: span 2;
 }
-.reaction-box > * {
+.reaction-box1 {
+  grid-column: 1;
+}
+.reaction-box2 {
+  grid-column: 3;
+}
+.reaction-box > *, .reaction-box1 > *, .reaction-box2 > *{
   position: absolute;
   z-index: 3;
   cursor: none;
@@ -73,14 +94,17 @@
   grid-column:  span 3;
   grid-row: 3;
   padding: 25px;
-  background-color: var(--background-menu);
-  border-top: var(--borders) 5px solid;
+  /* find a way to lazy load this? */
+  background-image: url("/wood-bg.svg");
+  border-top: var(--borders) 10px solid;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 20px;
+  position: relative;
+  z-index: 4;
 }
 .every-stat {
   width: 100%;
@@ -90,23 +114,32 @@
 }
 .happy-meter {
   display: flex;
+  /* justify-content: end; */
+  align-items: end;
 }
 .time-meter, .money-meter, .life-meter {
   width: 180px;
 }
 
+.emoji {
+  font-size: 32px;
+}
+
 /* Perk Grid */
 .perk-menu {
   width: 250px;
-  background-color: var(--background-menu);
-  border-left: var(--borders) 5px solid;
+  /* find a way to lazy load this? */
+  background-image: url("/wood-bg.svg");
+  border-left: var(--borders) 10px solid;
   padding: 25px;
-  grid-row: span 3;
+  grid-row: 1 / span 3;
   grid-column: 4;
   display: flex;
   flex-direction: column;
   gap: 25px;
   overflow-y: scroll;
+  position: relative;
+  z-index: 5;
 }
 .perk-menu h1{
   text-align: center;
@@ -136,8 +169,8 @@
   border-radius: 20px 20px 0 0;
 }
 .perk-container h3 {
-  color: #ffffff;
-  text-shadow: 4px 2px 8px var(--borders);
+  /* color: #ffffff; */
+  text-shadow: 4px 4px 18px var(--borders);
   width: 100%;
   position: absolute;
   top: 40%;

@@ -1,19 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,400;0,500;1,400;1,500&display=swap');
 :root {
-  --progress-bar-bg: #f0f0f0;
   --gain-money-btn: #2FBF71;
   --gain-affection-btn: #EF2D56;
   --background-menu: #212D40;
   --background: #3B291D;
   --borders: #251A12;
+  --scrollbar-bg: #6F432A;
+  --scrollbar-thumb: #98633B;
   --text: #f8f8f8;
 }
 
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Mochiy Pop One', sans-serif;
+  font-family: 'Asap', sans-serif;
   color: var(--text);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+  scrollbar-width: thin;
+}
+h1, h2, h3 {
+  font-family: 'Mochiy Pop One', sans-serif;
+}
+::-webkit-scrollbar {
+  width: 0.5em;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--scrollbar-bg);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
 }
 .game-grid {
   height: 100vh;
@@ -31,11 +47,18 @@
   width: 250px;
   height: 50px;
   justify-self: center;
-  background-color: var(--background);
+  background-image: url("/wood-bg.svg");
   border: var(--borders) 6px solid;
   border-radius: 25px;
   padding: 25px;
   margin: 30px;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
 /* Reaction Box */
 .reaction-box {
@@ -70,7 +93,6 @@
 /* Status Bar */
 .progress-bar {
   position: relative;
-  background-color: var(--progress-bar-bg);
   bottom: 15px;
 }
 .current-progress {
@@ -80,14 +102,12 @@
 .progress-bar-variant {
   margin: 0 10px;
   position: relative;
-  background-color: var(--progress-bar-bg);
-  border: var(--borders) 4px solid;
-  border-radius: 25px;
+  background-color: var(--text);
+  border: var(--borders) 6px solid;
 }
 .current-progress-variant {
   height: 100%;
   position: absolute;
-  border-radius: 25px 0 0 25px;
 }
 /* Stats */
 .stat-block-bg {
@@ -114,17 +134,14 @@
 }
 .happy-meter {
   display: flex;
-  /* justify-content: end; */
   align-items: end;
 }
 .time-meter, .money-meter, .life-meter {
   width: 180px;
 }
-
 .emoji {
   font-size: 32px;
 }
-
 /* Perk Grid */
 .perk-menu {
   width: 250px;
@@ -141,15 +158,19 @@
   position: relative;
   z-index: 5;
 }
-.perk-menu h1{
+.perk-title{
   text-align: center;
+  background-image: url("/wood-bg.svg");
+  border: var(--borders) 8px solid;
+  border-radius: 25px;
+  padding: 25px;
 }
 /* UPDATE PERK BUTTONS */
 .perk-button {
   display: flex;
   flex-direction: column;
-  background-color: var(--background);
-  border: var(--borders) 5px solid;
+  background-image: url("/wood-bg.svg");
+  border: var(--borders) 8px solid;
   border-radius: 25px;
 }
 .perk-content {
@@ -161,28 +182,26 @@
 }
 .perk-container {
   position: relative;
-  width: 100%;
-}
+  width: 100%;}
 .perk-container img {
   width: 100%;
   height: 165px;
   border-radius: 20px 20px 0 0;
 }
 .perk-container h3 {
-  /* color: #ffffff; */
   text-shadow: 4px 4px 18px var(--borders);
   width: 100%;
   position: absolute;
   top: 40%;
 }
 .perk-blurp{
-  padding: 15px 5px;
+  padding: 15px 10px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 .perk-blurp p {
-  text-align: center;
+  font-size: 16px;
   font-style: italic;
 }
 .top-perk-info {

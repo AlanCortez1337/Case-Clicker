@@ -11,9 +11,9 @@ export default function Perks({modifyPerks, currentMoney}) {
     const [showPerks, setShowPerks] = useState("options");
     const [workDisabled, workCost, workChange, workTime] = usePerkStatus(-1, 32, 5000);
     const [gambleDisabled, gambleCost, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
-    const [plushieDisabled, plushieCost, plushieChange, plushieTime] = usePerkStatus(15, 90, 10000);
-    const [bikeDisabled, bikeCost, bikeChange, bikeTime] = usePerkStatus(30, 32, 5000);
-    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(100, 22, 3800);
+    const [plushieDisabled, plushieCost, plushieChange, plushieTime] = usePerkStatus(15, 80, 12000);
+    const [bikeDisabled, bikeCost, bikeChange, bikeTime] = usePerkStatus(30, 50, 7000);
+    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(100, 100, 14000);
 
 
     const chosenPerk = (perkOption) => {
@@ -77,7 +77,7 @@ export default function Perks({modifyPerks, currentMoney}) {
 
     return (
         <section className="perk-menu">
-            <h1>PERKS!!!!</h1>
+            <h1 className='perk-title'>PERKS!!!!</h1>
             <PerkButtons 
                 btnName="AMC" 
                 updatePerks={() => chosenPerk("workPerk")} 

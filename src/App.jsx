@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
+import toast, { Toaster } from 'react-hot-toast'
+import {AnimatePresence} from 'framer-motion'
+import Modal from './components/modal'
 import Reaction from './components/reactions'
 import TapBox from './components/clickableArea'
 import Perks from './components/perks'
 import Stats from './components/displayStats'
 import useCounter from './hooks/useCounter'
 import Title from './components/title'
-import toast, { Toaster } from 'react-hot-toast'
 
 function App() {
   // reaction state
@@ -14,29 +16,42 @@ function App() {
   const [purgeCurrentEmoji, setPurgeCurrentEmoji] = useState("");
   // Custom hook to manage the affection
   // might need to change setModifier to modifier??????
-  const [affection, setAffection, setAffectionInteraction, setAffectionModifier, affectionModifier] = useCounter(45, 200, "decrement", 1);
+  const [setAffectionTimerOff, affection, setAffection, setAffectionInteraction, setAffectionModifier, affectionModifier] = useCounter(true, 45, 200, "decrement", 0);
   const [tapMod, setTapMod] = useState(1);
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(0);
   const [prevAffectionMod, setPrevAffectionMod] = useState(affectionModifier);
-  const [money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(10000, 2500, "increment", 1);
+  const [setMoneyTimerOff, money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(true, 10000, 2500, "increment", 0);
   // move timer up here
   // unique toasts to display
   const plushieToasts = ["It ran away", "It some how became inside out", "wear and tear really shows after 10 seconds doesnt it?", "A NEW AMONGUS PLUSHIE DROPPED GET IT", "Enough plushie time, its among us time!!!"]
   const bikeToasts = ["You ate the bike chain >:(", "You popped a tire", "You could use a new paint job", "Bike exploded", "Someone stole the bell"]
   const violaToasts = ["you gained an extra life 3>", "you gained an extra life <3", "new life who dis", "Better than violins", "Hang out is finished"]
-  // A purge to remove old emotes that no logner exist
+  // Modal state
+  const [infoModalOpen, setInfoModalOpen] = useState(true);
+  // Time State
+  const [pauseTime, setPauseTime] = useState(true);
+  const [time, setTime] = useState("")
+  const [gameOver, setGameOver] = useState(false);
+  // A purge to remove old emotes that no longer exist
   useEffect(()=>{
     if (newEmojis.length >= 10) {
       setNewEmojis([...newEmojis.slice(0, 1),
       ...newEmojis.slice(6, newEmojis.length)]);
     }
   },[newEmojis])
+  useEffect(()=>{
   //lives
-useEffect(()=>{
   if(affection < 5 && lives > 0) {
     setAffection(40)
     setAffectionInteraction("reset")
     setLives(prev => prev - 1)
+  // game over
+  }else if (affection === 0) {
+    console.log("game over!");
+    setGameOver(true);
+    // stop the timers
+    setMoneyTimerOff(true);
+    setPauseTime(true);
   }
 },[affection])
 
@@ -50,12 +65,7 @@ useEffect(()=>{
     // the math.random is to choose a random emoji to display from the currentEmoji array
     setNewEmojis([...newEmojis, {emote: currentEmoji[Math.floor(Math.random() * currentEmoji.length)].emoji, id: Math.random()}]);
   };
-  // purge irrelevant current emojis
-  // const purgeCurrentEmojis = (id) => {
-  //   setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== id})]);
-  //   console.log(currentEmoji)
-  // }
-
+  // purge the old emotes that should no longer show up when tapping 
   useEffect(()=>{
     setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== purgeCurrentEmoji})]);
   },[purgeCurrentEmoji])
@@ -148,30 +158,62 @@ useEffect(()=>{
         console.log("ERROR WITH modPerks");
     }
   };
+  const close = () => setInfoModalOpen(false);
+  
+  // Start the game once the tutorial modal closes
+  useEffect(()=>{
+    if(!infoModalOpen) {
+      setPauseTime(false);
+      setAffectionTimerOff(false);
+      setMoneyTimerOff(false);
+      setAffectionModifier(1);
+      setMoneyModifier(1);
+      setPrevAffectionMod(1);
+    }
+  },[infoModalOpen])
 
   return (
-    <div className='game-grid'>
-      <Title/>
-      <Reaction emojis={newEmojis} variant={1}/>
-      <TapBox updateAffection={incrementAffection}/>
-      <Reaction emojis={newEmojis} variant={2}/>
-      <Stats affectionMeter={affection} currentMoney={money} currentLives={lives}/>
-      <Perks modifyPerks={modPerks} currentMoney={money}/>
-      <Toaster 
-        position="top-left" 
-        toastOptions={{
-          style: {
-            border: '8px solid #251A12',
-            padding: '10px',
-            fontSize: '18px',
-            fontWeight: '500',
-            background: '#3B291D',
-            color: '#f8f8f8',
-          },
-        }}
-      />
-    </div>
-  )
+    <>
+      {/* Intro Welcome Modal */}
+      <AnimatePresence initial={false} exitBeforeEnter={true}>
+        {infoModalOpen && <Modal infoModalOpen={infoModalOpen} handleClose={close} modalType={"intro"}/>}
+      </AnimatePresence>
+      {/* Game Over Modal */}
+      <AnimatePresence initial={false} exitBeforeEnter={true}>
+        {gameOver &&
+          <Modal 
+            infoModalOpen={infoModalOpen} 
+            handleClose={close} 
+            modalType={"gameover"}
+            time={time}
+            money={money}
+          />
+        }
+      </AnimatePresence>
+
+      <div className='game-grid'>
+        <Title/>
+        <Reaction emojis={newEmojis} variant={1}/>
+        <TapBox updateAffection={incrementAffection}/>
+        <Reaction emojis={newEmojis} variant={2}/>
+        <Stats affectionMeter={affection} currentMoney={money} currentLives={lives} startTimer={pauseTime} passTime={(finalTime)=> setTime(finalTime)}/>
+        <Perks modifyPerks={modPerks} currentMoney={money}/>
+        <Toaster 
+          position="top-left" 
+          toastOptions={{
+            style: {
+                  border: '8px solid #251A12',
+                  padding: '10px',
+                  fontSize: '18px',
+                  fontWeight: '500',
+                  background: '#3B291D',
+                  color: '#f8f8f8',
+                },
+          }}
+        />
+      </div>
+    </>
+    );
 }
 
 export default App

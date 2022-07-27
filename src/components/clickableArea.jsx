@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Icon from '../favicon.svg'
+import Icon from '/case.webp'
 
 export default function ClickableArea({updateAffection}) {
 
@@ -11,12 +11,16 @@ export default function ClickableArea({updateAffection}) {
     };
 
     return (
-        <div onClick={updateAffection} className="clickable-area">
-            <motion.img 
+        <div  className="clickable-area">
+        <motion.img 
             initial={{rotate: 0}}
-            animate={{rotate: [-25, 25]}}
-            transition={rotateTransition}
-            src={Icon} alt="clickable area" />
+            animate={{rotate: [-25, 25], transition: rotateTransition}}
+            whileTap={{scale: 0.98}}
+            src={Icon} alt="clickable area" 
+            width={"400px"}
+            height={"400px"}
+            onClick={updateAffection}
+            />
         </div>
     );
 }

@@ -31,6 +31,50 @@ h1, h2, h3 {
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
 }
+/* modal */
+.backdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #212D40e1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+.modal {
+  padding: 10px 25px;
+  width: 800px;
+  height: 550px;
+  border-radius: 25px;
+  background-image: url("/wood-bg.svg");
+  background-size: cover;
+  border: var(--borders) 6px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+.modal h1 {
+  font-size: 48px;
+}
+.modal p {
+  font-family: 'Mochiy Pop One', sans-serif;
+  font-size: 24px;
+  text-align: center;
+}
+.modal button {
+  padding: 15px 30px;
+  font-family: 'Mochiy Pop One', sans-serif;
+  font-size: 24px;
+  background-color: var(--background);
+  border: var(--borders) 8px solid;
+  border-radius: 25px;
+}
+/* game board */
 .game-grid {
   height: 100vh;
   display: grid;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ProgressBar from './statusBar'
 import Timer from './timer'
 
-export default function Stats({affectionMeter, currentMoney, currentLives}) {
+export default function Stats({affectionMeter, currentMoney, currentLives, startTimer, passTime}) {
     const [currentEmotion, setCurrentEmotion] = useState("😐");
     useEffect(()=>{
         if (affectionMeter > 90) {
@@ -29,7 +29,7 @@ export default function Stats({affectionMeter, currentMoney, currentLives}) {
                 </h2>
                 <h2 className='money-meter'><span className='emoji'>💰</span> ${currentMoney}</h2>
                 <h2 className='life-meter'><span className='emoji'>❤️</span>x {currentLives}</h2>
-                <Timer/>
+                <Timer pauseTime={startTimer} sendTime={(time) => passTime(time)}/>
             </div>
         </section>
     );

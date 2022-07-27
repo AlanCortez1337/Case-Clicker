@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import Counter from '../hooks/useCounter'
 
-function Timer() {
-    const [time] = Counter(0, 1000, "increment", 1);
+function Timer({pauseTime, sendTime}) {
+    const [setTimerOff, time] = Counter(true, 0, 1000, "increment", 1);
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(-2);
+    const [seconds, setSeconds] = useState(-1);
     const [specialEncounter, setSpecialEncounter] = useState(false);
+    const [currentTime, setCurrentTime] = useState("00:00:00");
+
+
 
     useEffect(()=>{
         if(!specialEncounter) {
@@ -22,12 +25,22 @@ function Timer() {
                 setSeconds(0);
             } else {
             setSeconds(prev => prev + 1)
-    
             }
+            setCurrentTime(`${hours > 9 ? `${hours}` : `0${hours}`}:${minutes > 9 ? `${minutes}` : `0${minutes}`}:${seconds > 9 ? `${seconds}` : `${seconds === -1 ? "00" : `0${seconds}`}`}
+            `)
         }
     }
     ,[time])
 
+    useEffect(()=>{
+            if(pauseTime) {
+                setTimerOff(true);
+                sendTime(currentTime);
+            }else{
+                setTimerOff(false);
+                
+        }
+    },[pauseTime])
 
     return(
         <>
@@ -35,9 +48,7 @@ function Timer() {
                 <h2>bro wtf...</h2>
                 :
                 <h2 className='timer time-meter'> <span className='emoji'>⏳</span>
-                    {hours > 9 ? <> {hours}</> : <> 0{hours}</>}:
-                    {minutes > 9 ? <>{minutes}</> : <>0{minutes}</>}:
-                    {seconds > 9 ? <>{seconds}</> : <>0{seconds}</>}
+                    {currentTime}
                 </h2>
             }
         </>

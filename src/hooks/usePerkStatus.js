@@ -7,7 +7,7 @@ export default function usePerkStatus (price, timer, lifeSpan) {
     const [cost, setCost] = useState(price);
     const [shouldUpdate, setShouldUpdate] = useState("");
     // currently hard set to only work for the workAMC time btw
-    const [time, updateTime] = useCounter(102, timer, "decrement", 1);
+    const [setTimerOff, time, updateTime] = useCounter(false, 102, timer, "decrement", 1);
 
     useEffect(()=>{
         if(shouldUpdate !== "") {

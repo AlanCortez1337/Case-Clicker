@@ -16,14 +16,14 @@ export default function PerkOptions({btnName, updatePerks, cost, disabled, timer
 
     return(
         <AnimatePresence>
-            <div className='perk-button'>
-                <motion.button 
-                    // initial={{rotate: 0}}
-                    // whileHover={{scale: 1.05}}
-                    // whileTap={{scale: 0.9}}
-                    onClick={() => handleUpdate()}
-                    className="perk-content"
-                >
+            <motion.div 
+                whileHover={{scale: 1.1, boxShadow: "0px 0px 8px #FFD700"}}
+                whileTap={{scale: 0.98}}
+                transition={{ease: "backInOut", duration: 0.35}}
+                onClick={() => handleUpdate()}
+                className='perk-button'
+            >
+                <button className="perk-content no-highlight">
                     {/* Unique button image and title */}
                     {btnName === "AMC" ?
                         <div className='perk-container'>
@@ -63,7 +63,7 @@ export default function PerkOptions({btnName, updatePerks, cost, disabled, timer
                             }
                         </>
                     } 
-                </motion.button>
+                </button>
                 {!disabled ? 
                     <StatusBar key={`${btnName}-off`} currentProgress={0} width="100%" height="10px" startPoint="0%" variant={false}/>
                     :
@@ -71,11 +71,11 @@ export default function PerkOptions({btnName, updatePerks, cost, disabled, timer
                 }
 
 
-                <div className='perk-blurp'>
+                <div className='perk-blurp no-highlight'>
                     {cost !== -1 && <h3>Cost: ${cost}</h3>}
                     <p>{info}</p>
                 </div>
-            </div>
+            </motion.div>
         </AnimatePresence>
     );
 }

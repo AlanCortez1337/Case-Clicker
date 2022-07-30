@@ -65,6 +65,7 @@ function App() {
   },[affection])
   // increments affection meter and displays emojis
   const incrementAffection = () => {
+    console.log(currentEmoji)
     if(affection < 100) {
       setAffection(prevAffection => prevAffection + tapMod);
       setAffectionInteraction("tap")
@@ -74,10 +75,14 @@ function App() {
   };
   // purge the old emotes that should no longer show up when tapping 
   useEffect(()=>{
-    setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== purgeCurrentEmoji})]);
+    if(purgeCurrentEmoji !== "refresh") {
+      setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== purgeCurrentEmoji})]);
+      console.log("prev",currentEmoji)
+    }
   },[purgeCurrentEmoji])
   // update perks function
   const modPerks = (perk, cost) => {
+    setPurgeCurrentEmoji("refresh");
     switch (perk) {
       case "workPerk":
         setAffectionModifier(2);
@@ -85,15 +90,15 @@ function App() {
         setMoneyModifier(11);
         setMoneyInteraction("timer");
         setCurrentEmoji([...currentEmoji,{emoji: "💸", id: "work"},{emoji: "🍿", id: "work"}]);
-        setPurgeCurrentEmoji("work");
         setWorkTimer(
           setTimeout(()=>{
+            setPurgeCurrentEmoji("work");
             setAffectionModifier(1);
             setAffectionInteraction("timer");
             setMoneyModifier(1);
             setMoneyInteraction("timer");
-              toast('You Finished your shift!', {
-                icon: '👏',
+            toast('You Finished your shift!', {
+              icon: '👏',
             });
           }, 5000)
         )
@@ -207,7 +212,7 @@ function App() {
     setPauseTime(false);
     // restart money
     setMoneyInteraction("timer");
-    updateMoney(0);
+    updateMoney(1000);
     setMoneyTimerOff(false);
     setMoneyModifier(1);
     // restart lives

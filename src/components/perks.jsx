@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
 import PerkButtons from './perkOptions'
 import usePerkStatus from '../hooks/usePerkStatus';
 import toast from 'react-hot-toast'

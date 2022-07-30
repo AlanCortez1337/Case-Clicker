@@ -15,7 +15,7 @@ export default function Title () {
             animate={{rotate: [-5, 5]}}
             whileTap={{ scale: 0.9 }}
             transition={rotateTransition}
-            className="title-box"
+            className="title-box no-highlight"
         >
             Case Clicker
         </motion.h1>

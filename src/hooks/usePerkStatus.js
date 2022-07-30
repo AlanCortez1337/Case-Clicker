@@ -6,6 +6,7 @@ export default function usePerkStatus (price, timer, lifeSpan) {
     const [disabled, setDisabled] = useState(false);
     const [cost, setCost] = useState(price);
     const [shouldUpdate, setShouldUpdate] = useState("");
+    const [endGame, setEndGame] = useState({price: 0, end: false});
     // currently hard set to only work for the workAMC time btw
     const [setTimerOff, time, updateTime] = useCounter(false, 102, timer, "decrement", 1);
 
@@ -24,12 +25,20 @@ export default function usePerkStatus (price, timer, lifeSpan) {
             // how long until it should become undisabled
             setTimeout(()=> {
                 setDisabled(false);
-                updateTime(0)
+                updateTime(0);
             }, lifeSpan);
 
         } 
     },[shouldUpdate])
 
+    useEffect(()=>{
+        if(endGame.end) {
+            setCost(endGame.price);
+            updateTime(0);
+        }
+    },[endGame])
 
-    return [disabled, cost, setShouldUpdate, time];
+
+
+    return [disabled, cost, setShouldUpdate, time, setEndGame];
 }

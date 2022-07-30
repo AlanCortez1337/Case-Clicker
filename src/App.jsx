@@ -32,6 +32,13 @@ function App() {
   const [pauseTime, setPauseTime] = useState(true);
   const [time, setTime] = useState("")
   const [gameOver, setGameOver] = useState(false);
+  // perk timeouts
+  const [workTimer, setWorkTimer] = useState(0);
+  const [gambleTimer, setGambleTimer] = useState(0);
+  const [plushieTimer, setPlushieTimer] = useState(0);
+  const [bikeTimer, setBikeTimer] = useState(0);
+  const [violaTimer, setViolaTimer] = useState(0);
+
   // A purge to remove old emotes that no longer exist
   useEffect(()=>{
     if (newEmojis.length >= 10) {
@@ -39,6 +46,7 @@ function App() {
       ...newEmojis.slice(6, newEmojis.length)]);
     }
   },[newEmojis])
+  // game over / tracking of lives
   useEffect(()=>{
   //lives
   if(affection < 5 && lives > 0) {
@@ -46,16 +54,15 @@ function App() {
     setAffectionInteraction("reset")
     setLives(prev => prev - 1)
   // game over
-  }else if (affection === 0) {
+  }else if (affection <= 0) {
     console.log("game over!");
     setGameOver(true);
     // stop the timers
     setMoneyTimerOff(true);
     setPauseTime(true);
+    setCurrentEmoji([{emoji: "😳", id: "default"},{emoji: "👍", id: "default"},{emoji: "🤝", id: "default"}]);
   }
-},[affection])
-
-
+  },[affection])
   // increments affection meter and displays emojis
   const incrementAffection = () => {
     if(affection < 100) {
@@ -69,8 +76,6 @@ function App() {
   useEffect(()=>{
     setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== purgeCurrentEmoji})]);
   },[purgeCurrentEmoji])
-
-
   // update perks function
   const modPerks = (perk, cost) => {
     switch (perk) {
@@ -80,24 +85,29 @@ function App() {
         setMoneyModifier(11);
         setMoneyInteraction("timer");
         setCurrentEmoji([...currentEmoji,{emoji: "💸", id: "work"},{emoji: "🍿", id: "work"}]);
-        setTimeout(()=>{
-          setPurgeCurrentEmoji("work");
-          setAffectionModifier(1);
-          setAffectionInteraction("timer");
-          setMoneyModifier(1);
-          setMoneyInteraction("timer");
-            toast('You Finished your shift!', {
-            icon: '👏',
-          });
-        }, 5000);
+        setPurgeCurrentEmoji("work");
+        setWorkTimer(
+          setTimeout(()=>{
+            setAffectionModifier(1);
+            setAffectionInteraction("timer");
+            setMoneyModifier(1);
+            setMoneyInteraction("timer");
+              toast('You Finished your shift!', {
+                icon: '👏',
+            });
+          }, 5000)
+        )
         break;
       case "gamble":
-        // remove the betting money
-        updateMoney(prev => prev -  cost);
-        setMoneyInteraction("gamble");
-        // calculating if they won
-        let chance = Math.floor(Math.random() * 10);
-        setCurrentEmoji([...currentEmoji, {emoji: "🎲", id: "gamble"},{emoji: "💰", id: "gamble"}]);
+      // remove the betting money
+      updateMoney(prev => prev -  cost);
+      setMoneyInteraction("gamble");
+      // calculating if they won
+      let chance = Math.floor(Math.random() * 10);
+      setCurrentEmoji([...currentEmoji, {emoji: "🎲", id: "gamble"},{emoji: "💰", id: "gamble"}]);
+      // storing the id of the timeout
+      setGambleTimer(
+        // executing the timeout of the gamble perk waiting to reset it once the time runs out
         setTimeout(()=>{
           setPurgeCurrentEmoji("gamble");
           // console.log(currentEmoji)
@@ -110,29 +120,33 @@ function App() {
             //do the other toast thing
             toast.error("You have terrible luck");
           }
-        },3800);
-        break;
+        },3800)
+      )
+      break;
       case "plushie":
         // make this scalable according to the decrement mod in the future
         setTapMod(prev => prev + 0.25)
         setCurrentEmoji([...currentEmoji, {emoji: "🚀", id: "plushie"},{emoji: "🔪", id: "plushie"}]);
-        setTimeout(()=>{
-          setPurgeCurrentEmoji("plushie");
-          setTapMod(prev => prev - 0.25)
-          toast(plushieToasts[(Math.floor(Math.random() * 4))], {
-            icon: '🚀',
-          });
-        }, 10000)
-        break;
+        setPlushieTimer(
+          setTimeout(()=>{
+            setPurgeCurrentEmoji("plushie");
+            setTapMod(prev => prev - 0.25)
+            toast(plushieToasts[(Math.floor(Math.random() * 4))], {
+              icon: '🚀',
+            })
+          }, 10000)
+        )
+      break;
       case "bike":
         //storing the previous affection mod to change back to normal once this is done
-        setPrevAffectionMod(affectionModifier);
-        // remove the bike money
-        updateMoney(prev => prev -  cost);
-        // perk benefit
-        setAffectionModifier(-0.5);
-        setAffectionInteraction("timer")
-        setCurrentEmoji([...currentEmoji, {emoji: "🚲", id: "bike"}, {emoji: "💪", id: "bike"}]);
+      setPrevAffectionMod(affectionModifier);
+      // remove the bike money
+      updateMoney(prev => prev -  cost);
+      // perk benefit
+      setAffectionModifier(-0.5);
+      setAffectionInteraction("timer")
+      setCurrentEmoji([...currentEmoji, {emoji: "🚲", id: "bike"}, {emoji: "💪", id: "bike"}]);
+      setBikeTimer(
         // reset and notify that the perk has run out
         setTimeout(()=>{
           setPurgeCurrentEmoji("bike");
@@ -141,25 +155,37 @@ function App() {
           toast(bikeToasts[(Math.floor(Math.random() * 4))], {
             icon: '🚲',
           });
-        }, 7000);
-        break;
+        }, 7000)
+      )
+      break;
       case "viola":
         updateMoney(prev => prev -  cost);
         setCurrentEmoji([...currentEmoji, {emoji: "❤️", id: "viola"}, {emoji: "🎻", id: "viola"}]);
-        setTimeout(()=>{
-          setPurgeCurrentEmoji("viola");
-          setLives(prev => prev + 1);
-          toast(violaToasts[(Math.floor(Math.random() * 4))], {
-            icon: '❤️',
-          });
-        }, 12000)
-        break;
+        setViolaTimer(
+          setTimeout(()=>{
+            setPurgeCurrentEmoji("viola");
+            setLives(prev => prev + 1);
+            toast(violaToasts[(Math.floor(Math.random() * 4))], {icon: '❤️'});
+          }, 12000)
+        )
+      break;
       default:
         console.log("ERROR WITH modPerks");
     }
   };
+  // Clears all the potentially active timeouts from the perks once the user loses
+  useEffect(()=>{
+    if(gameOver) {
+      clearTimeout(workTimer);
+      clearTimeout(gambleTimer);
+      clearTimeout(plushieTimer);
+      clearTimeout(bikeTimer);
+      clearTimeout(violaTimer);
+    }
+    
+  },[gameOver])
+  // close modal
   const close = () => setInfoModalOpen(false);
-  
   // Start the game once the tutorial modal closes
   useEffect(()=>{
     if(!infoModalOpen) {
@@ -171,7 +197,24 @@ function App() {
       setPrevAffectionMod(1);
     }
   },[infoModalOpen])
-
+  // resets all the modifiers and numbers back to its starting parts
+  const restartGame = () => {
+    // restart affection
+    setAffectionInteraction("timer");
+    setAffection(45);
+    setAffectionModifier(1);
+    // restart timer
+    setPauseTime(false);
+    // restart money
+    setMoneyInteraction("timer");
+    updateMoney(0);
+    setMoneyTimerOff(false);
+    setMoneyModifier(1);
+    // restart lives
+    setLives(0);
+    // close modal
+    setGameOver(false);
+  }
   return (
     <>
       {/* Intro Welcome Modal */}
@@ -183,7 +226,7 @@ function App() {
         {gameOver &&
           <Modal 
             infoModalOpen={infoModalOpen} 
-            handleClose={close} 
+            handleClose={restartGame} 
             modalType={"gameover"}
             time={time}
             money={money}
@@ -197,7 +240,7 @@ function App() {
         <TapBox updateAffection={incrementAffection}/>
         <Reaction emojis={newEmojis} variant={2}/>
         <Stats affectionMeter={affection} currentMoney={money} currentLives={lives} startTimer={pauseTime} passTime={(finalTime)=> setTime(finalTime)}/>
-        <Perks modifyPerks={modPerks} currentMoney={money}/>
+        <Perks modifyPerks={modPerks} currentMoney={money} restart={gameOver}/>
         <Toaster 
           position="top-left" 
           toastOptions={{

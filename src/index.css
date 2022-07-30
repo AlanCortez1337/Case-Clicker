@@ -74,6 +74,14 @@ h1, h2, h3 {
   border: var(--borders) 8px solid;
   border-radius: 25px;
 }
+.modal-stats {
+  font-size: 18px;
+  display: flex;
+  gap: 20px;
+}
+.subtext {
+  font-size: 4px;
+}
 /* game board */
 .game-grid {
   height: 100vh;

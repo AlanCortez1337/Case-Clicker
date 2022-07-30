@@ -58,12 +58,12 @@ export default function Modal ({handleClose, modalType, time, money}) {
                         :
                         <>
                             <h1>Game Over!</h1>
+                            <h2>Your Stats</h2>
                             <div className='modal-stats'>
-                                <h3>Your Stats</h3>
                                 <p>Time Survived: {time}</p>
                                 <p>Remaining Money: ${money}</p>
-                                <p className='subtext'>Remember to share with Alan!</p>
                             </div>
+                            <p className='subtext'>Remember to share with Alan!</p>
                             <motion.button 
                                 whileHover={{scale: 1.1}}
                                 whileTap={{scale: 0.95}}

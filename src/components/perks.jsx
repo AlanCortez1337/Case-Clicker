@@ -1,19 +1,17 @@
-import { useState } from 'react';
-import { IoCaretBackCircle } from "react-icons/io5";
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PerkButtons from './perkOptions'
 import usePerkStatus from '../hooks/usePerkStatus';
 import toast from 'react-hot-toast'
 
 
-export default function Perks({modifyPerks, currentMoney}) {
+export default function Perks({modifyPerks, currentMoney, restart}) {
     
-    const [showPerks, setShowPerks] = useState("options");
     const [workDisabled, workCost, workChange, workTime] = usePerkStatus(-1, 32, 5000);
-    const [gambleDisabled, gambleCost, gambleChange, gambleTime] = usePerkStatus(5, 22, 3800);
-    const [plushieDisabled, plushieCost, plushieChange, plushieTime] = usePerkStatus(15, 80, 12000);
-    const [bikeDisabled, bikeCost, bikeChange, bikeTime] = usePerkStatus(30, 50, 7000);
-    const [violaDisabled, violaCost, violaChange, violaTime] = usePerkStatus(100, 100, 14000);
+    const [gambleDisabled, gambleCost, gambleChange, gambleTime, endGamble] = usePerkStatus(5, 22, 3800);
+    const [plushieDisabled, plushieCost, plushieChange, plushieTime, endPlushie] = usePerkStatus(15, 80, 12000);
+    const [bikeDisabled, bikeCost, bikeChange, bikeTime, endBike] = usePerkStatus(30, 50, 7000);
+    const [violaDisabled, violaCost, violaChange, violaTime, endViola] = usePerkStatus(100, 100, 14000);
 
 
     const chosenPerk = (perkOption) => {
@@ -74,6 +72,15 @@ export default function Perks({modifyPerks, currentMoney}) {
                 console.log("ERROR WITH chosenPerk");
         }
     }
+
+    useEffect(()=>{
+        if(restart) {
+            endGamble({price: 5, end: true});
+            endPlushie({price: 15, end: true});
+            endBike({price: 30, end: true});
+            endViola({price: 100, end: true});
+        }
+    },[restart])
 
     return (
         <section className="perk-menu">

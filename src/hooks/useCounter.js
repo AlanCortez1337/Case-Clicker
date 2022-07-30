@@ -5,22 +5,27 @@ export default function useCounter (onOff, time, timeInterval, counterType, modi
     const [mod, setMod] = useState(modifier);
     const [interaction, setInteraction] = useState("timer");
     const [pause, setPause] = useState(onOff);
+    let timer;
 
     useEffect(()=>{
         if(interaction === "timer" && !pause) {
             if(counterType === "increment"){
-                setTimeout(() => {
+                timer = setTimeout(() => {
                     setCurrentTime(prevTime => prevTime + mod);
                     setInteraction("timer");
                 }, timeInterval);
             } else if (counterType === "decrement") {
                 if(currentTime > 0) {
-                    setTimeout(() => {
+                    timer = setTimeout(() => {
                         setCurrentTime(prevTime => prevTime - mod);
                         setInteraction("timer");
                     }, timeInterval);
-                }
+                } 
             }
+            // unmount?????
+            // return () => {
+            //     clearTimeout(timer);
+            // }
         }
     }, [currentTime, pause]);
 

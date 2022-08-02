@@ -1,11 +1,10 @@
 import { motion } from "framer-motion";
 
-export default function Backdrop ({children, onClick}) {
+export default function Backdrop ({children}) {
 
     return (
         <motion.div
             className="backdrop"
-            onClick={onClick}
             initial={{opacity:0}}
             animate={{opacity:1}}
             exit={{opacity:0}}

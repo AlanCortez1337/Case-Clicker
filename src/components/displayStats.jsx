@@ -21,7 +21,7 @@ export default function Stats({affectionMeter, currentMoney, currentLives, start
     }, [affectionMeter])
 
     return(
-        <section className='stat-block-bg'>
+        <section className='stat-block-bg no-highlight'>
             <h1>CASE-O-STATS</h1>
             <div className='every-stat'>
                 <h2 className='happy-meter'>

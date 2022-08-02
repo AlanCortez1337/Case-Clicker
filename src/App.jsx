@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
-import {AnimatePresence} from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import Modal from './components/modal'
 import Reaction from './components/reactions'
 import TapBox from './components/clickableArea'
 import Perks from './components/perks'
 import Stats from './components/displayStats'
-import useCounter from './hooks/useCounter'
 import Title from './components/title'
+import useCounter from './hooks/useCounter'
+import useLocalStorage from './hooks/useLocalStorage'
 
 function App() {
   // reaction state
@@ -20,7 +21,7 @@ function App() {
   const [tapMod, setTapMod] = useState(1);
   const [lives, setLives] = useState(0);
   const [prevAffectionMod, setPrevAffectionMod] = useState(affectionModifier);
-  const [setMoneyTimerOff, money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(true, 10000, 2500, "increment", 0);
+  const [setMoneyTimerOff, money, updateMoney, setMoneyInteraction, setMoneyModifier] = useCounter(true, 0, 2500, "increment", 0);
   // move timer up here
   // unique toasts to display
   const plushieToasts = ["It ran away", "It some how became inside out", "wear and tear really shows after 10 seconds doesnt it?", "A NEW AMONGUS PLUSHIE DROPPED GET IT", "Enough plushie time, its among us time!!!"]
@@ -38,7 +39,8 @@ function App() {
   const [plushieTimer, setPlushieTimer] = useState(0);
   const [bikeTimer, setBikeTimer] = useState(0);
   const [violaTimer, setViolaTimer] = useState(0);
-
+  // localStorage
+  const [oldScore, checkOldScore] = useLocalStorage("00:00:00", -1);
   // A purge to remove old emotes that no longer exist
   useEffect(()=>{
     if (newEmojis.length >= 10) {
@@ -55,7 +57,6 @@ function App() {
     setLives(prev => prev - 1)
   // game over
   }else if (affection <= 0) {
-    console.log("game over!");
     setGameOver(true);
     // stop the timers
     setMoneyTimerOff(true);
@@ -65,7 +66,6 @@ function App() {
   },[affection])
   // increments affection meter and displays emojis
   const incrementAffection = () => {
-    console.log(currentEmoji)
     if(affection < 100) {
       setAffection(prevAffection => prevAffection + tapMod);
       setAffectionInteraction("tap")
@@ -77,7 +77,6 @@ function App() {
   useEffect(()=>{
     if(purgeCurrentEmoji !== "refresh") {
       setCurrentEmoji([...currentEmoji.filter(emoji => {return emoji.id !== purgeCurrentEmoji})]);
-      console.log("prev",currentEmoji)
     }
   },[purgeCurrentEmoji])
   // update perks function
@@ -115,7 +114,6 @@ function App() {
         // executing the timeout of the gamble perk waiting to reset it once the time runs out
         setTimeout(()=>{
           setPurgeCurrentEmoji("gamble");
-          // console.log(currentEmoji)
           if(chance < 4) {
             updateMoney(prev => prev +  (2 * cost));
             setMoneyInteraction("gamble");
@@ -187,8 +185,15 @@ function App() {
       clearTimeout(bikeTimer);
       clearTimeout(violaTimer);
     }
-    
   },[gameOver])
+  // When Time Changes we want to save it to local storage
+  useEffect(()=>{
+    if(time !== "") {
+
+      checkOldScore({currentTime: time, currentCash: money});
+      console.log("time: ",time, "\n",oldScore.currentTime);
+    }
+  },[time])
   // close modal
   const close = () => setInfoModalOpen(false);
   // Start the game once the tutorial modal closes
@@ -212,7 +217,7 @@ function App() {
     setPauseTime(false);
     // restart money
     setMoneyInteraction("timer");
-    updateMoney(1000);
+    updateMoney(0);
     setMoneyTimerOff(false);
     setMoneyModifier(1);
     // restart lives

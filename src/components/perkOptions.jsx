@@ -17,9 +17,8 @@ export default function PerkOptions({btnName, updatePerks, cost, disabled, timer
     return(
         <AnimatePresence>
             <motion.div 
-                whileHover={{scale: 1.1, boxShadow: "0px 0px 8px #FFD700"}}
+                whileHover={{scale: 1.1, boxShadow: "0px 0px 8px #FFD700", transition:{ease: "backInOut", duration: 0.35}}}
                 whileTap={{scale: 0.98}}
-                transition={{ease: "backInOut", duration: 0.35}}
                 onClick={() => handleUpdate()}
                 className='perk-button'
             >

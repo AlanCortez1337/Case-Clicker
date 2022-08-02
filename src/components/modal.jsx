@@ -27,10 +27,10 @@ export default function Modal ({handleClose, modalType, time, money}) {
 
     return (
         
-            <Backdrop onClick={handleClose}>
+            <Backdrop>
                 <motion.div
                     onClick={(e) => e.stopPropagation()}
-                    className="modal"
+                    className="modal no-highlight"
                     variants={modalVariant}
                     initial="hidden"
                     animate="visible"

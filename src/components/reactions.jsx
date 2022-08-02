@@ -20,6 +20,7 @@ function Reaction({emojis, variant}) {
                     duration: `1`,
                     ease: "easeInOut",
                 }}
+                className="no-highlight"
             >{emotes.emote}</motion.div>
           );
         })

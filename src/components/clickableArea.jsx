@@ -12,14 +12,14 @@ export default function ClickableArea({updateAffection}) {
 
     return (
         <div  className="clickable-area">
-        <motion.img 
-            initial={{rotate: 0}}
-            animate={{rotate: [-25, 25], transition: rotateTransition}}
-            whileTap={{scale: 0.98}}
-            src={Icon} alt="clickable area" 
-            width={"400px"}
-            height={"400px"}
-            onClick={updateAffection}
+            <motion.img 
+                initial={{rotate: 0}}
+                animate={{rotate: [-25, 25], transition: rotateTransition}}
+                whileTap={{scale: 0.98}}
+                src={Icon} alt="clickable area" 
+                width={"400px"}
+                height={"400px"}
+                onClick={updateAffection}
             />
         </div>
     );

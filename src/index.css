@@ -46,8 +46,8 @@ h1, h2, h3 {
 }
 .modal {
   padding: 10px 25px;
-  width: 800px;
-  height: 550px;
+  width: 50%;
+  height: 70%;
   border-radius: 25px;
   background-image: url("/wood-bg.svg");
   background-size: cover;
@@ -87,11 +87,10 @@ h1, h2, h3 {
   height: 100vh;
   display: grid;
   grid-template-columns: repeat(3, 1fr) 0fr;
-  grid-template-rows: repeat(2, 1fr) 0fr;
-  background-image: url("/forest-bg.webp");
+  grid-template-rows: 0fr 1fr 0fr;
+  background-image: url("/forest-bg.svg");
   background-repeat: no-repeat;
   background-size: 1620px 1000px;
-
 }
 .no-highlight {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -138,11 +137,11 @@ h1, h2, h3 {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  height: 550px;
+  align-items: center;
 }
-.clickable-area > * {
-  position: absolute;
+.clickable-area img {
+  border: var(--borders) 10px solid;
+  border-radius: 75px;
 }
 /* Status Bar */
 .progress-bar {
@@ -165,13 +164,14 @@ h1, h2, h3 {
 }
 /* Stats */
 .stat-block-bg {
-  grid-column:  span 3;
+  grid-column: span 3;
   grid-row: 3;
   padding: 25px;
   /* find a way to lazy load this? */
   background-image: url("/wood-bg.svg");
+  background-size: cover;
   border-top: var(--borders) 10px solid;
-  width: 100%;
+  width: calc(100% - 50px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -236,7 +236,8 @@ h1, h2, h3 {
 }
 .perk-container {
   position: relative;
-  width: 100%;}
+  width: 100%;
+}
 .perk-container img {
   width: 100%;
   height: 165px;
@@ -263,10 +264,81 @@ h1, h2, h3 {
   height: 100%;
   display: flex;
 }
-
 .bottom-perk-info {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+/* laptop */
+@media screen and (max-width: 1600px) {
+  .clickable-area img {
+    width: 300px;
+    height: 300px;
+  }
+}
+/* Ipad */
+@media screen and (max-width: 1400px) {
+  .game-grid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0fr 1fr 0fr 1fr;
+  }
+  .perk-menu {
+    width: calc(100% - 50px);
+    /* find a way to lazy load this? */
+    background-image: url("/wood-bg.svg");
+    border-top: var(--borders) 10px solid;
+    border-left: none;
+    padding: 25px;
+    grid-column: 1 / span 3;
+    grid-row: 4;
+    flex-direction: row;
+    gap: 25px;
+    overflow-x: auto;
+    position: relative;
+    z-index: 5;
+  }
+  .perk-title{
+    display: none;
+  }
+  .perk-container img {
+    width: 220px;
+    height: 165px;
+    border-radius: 20px 20px 0 0;
+  }
+  .clickable-area img {
+    width: 250px;
+    height: 250px;
+  }
+}
+/* kindle */
+@media screen and (max-width: 1000px) {
+  .every-stat {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (max-width: 700px) {
+  .game-grid {
+    height: 200vh;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 0fr 1fr 1fr 1fr;
+  }
+  .every-stat {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .money-meter, .life-meter, .time-meter, .happy-meter {
+    margin: 0 25px;
+    width: calc(100% - 50px);
+  }
+  .happy-meter {
+    grid-column: span 2;
+  }
+  .time-meter {
+    grid-column: span 2;
+  }
 }

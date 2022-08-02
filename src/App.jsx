@@ -40,7 +40,7 @@ function App() {
   const [bikeTimer, setBikeTimer] = useState(0);
   const [violaTimer, setViolaTimer] = useState(0);
   // localStorage
-  const [oldScore, checkOldScore] = useLocalStorage("00:00:00", -1);
+  const [oldScore, checkOldScore] = useLocalStorage({currentTime: "00:00:00", currentCash: 0});
   // A purge to remove old emotes that no longer exist
   useEffect(()=>{
     if (newEmojis.length >= 10) {
@@ -188,10 +188,9 @@ function App() {
   },[gameOver])
   // When Time Changes we want to save it to local storage
   useEffect(()=>{
-    if(time !== "") {
-
+    if(gameOver) {
       checkOldScore({currentTime: time, currentCash: money});
-      console.log("time: ",time, "\n",oldScore.currentTime);
+      console.log("it")
     }
   },[time])
   // close modal
@@ -240,6 +239,7 @@ function App() {
             modalType={"gameover"}
             time={time}
             money={money}
+            oldStats={oldScore}
           />
         }
       </AnimatePresence>

@@ -27,8 +27,7 @@ function Timer({pauseTime, sendTime}) {
             setSeconds(prev => prev + 1)
             }
             // convert into a readable string to tell the time
-            setCurrentTime(`${hours > 9 ? `${hours}` : `0${hours}`}:${minutes > 9 ? `${minutes}` : `0${minutes}`}:${seconds > 9 ? `${seconds}` : `${seconds === -1 ? "00" : `0${seconds}`}`}
-            `)
+            setCurrentTime(`${hours > 9 ? `${hours}` : `0${hours}`}:${minutes > 9 ? `${minutes}` : `0${minutes}`}:${seconds > 9 ? `${seconds}` : `${seconds === -1 ? "00" : `0${seconds}`}`}`)
         }
     }
     ,[time])

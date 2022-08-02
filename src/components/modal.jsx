@@ -1,7 +1,7 @@
 import { motion} from 'framer-motion'
 import Backdrop from './backdrop'
 
-export default function Modal ({handleClose, modalType, time, money}) {
+export default function Modal ({handleClose, modalType, time, money, oldStats}) {
 
     const modalVariant = {
         hidden: {
@@ -38,40 +38,50 @@ export default function Modal ({handleClose, modalType, time, money}) {
                 >
                     {modalType === "intro" ?
                         <>
-                            <h1>Welcome to Case Clicker!</h1>
+                            <div className='modal-title'>
+                                <h1>👋 Welcome 👋</h1>
+                                <h2>✨ to ✨</h2>
+                                <h1>😂 Case Clicker! 😂</h1>
+                            </div>
                             <p>
-                                Game is simple, don't let the happiness meter 
-                                at the bottom left doesn't hit zero. Tap on Case 
-                                to make him happy or buy perks on the right hand 
-                                side to help you on your journey! Try to last and 
-                                make Case happy or else... SO WHAT ARE WAITING FOR? 
-                                GO MAKE A MAN HAPPY!
+                                Game 🎮 is simple 🙏, ❌don't let 🥶
+                                the happy 😄 meter hit 😡 zero 😈. Tap on 😩 Case 😳  
+                                to make him 🤝 happy 🤪 or buy 💸 perks 💰 to 🤜🤛 help 🤝 you 
+                                on your 🌠 journey 🚀! Try to 😳 last 💦 a 📏 long ⏱️ time ⏳
+                                and make Case 😂 happy 🤤 or else 🤫 someone will be 😥 sad 😭! 
                             </p>
+                            <p>SO 🤔 WHAT ❓ ARE WAITING ⏲️ FOR? GO 🚶‍♂️💨MAKE A 😆 MAN...</p>
+                            <p>🎉🎉🎉HAPPY!🎉🎉🎉</p>
                             <motion.button 
                                 whileHover={{scale: 1.1}}
                                 whileTap={{scale: 0.95}}
                                 onClick={handleClose}
                             >
-                                Let's Rock n Roll
+                                🤠 Let's Rock n Roll 🎸
                             </motion.button>
                         </>
                         :
-                        <>
-                            <h1>Game Over!</h1>
-                            <h2>Your Stats</h2>
+                        <div className='game-over-modal'>
+                            <h1>🤬 Game Over! 🤬</h1>
                             <div className='modal-stats'>
-                                <p>Time Survived: {time}</p>
-                                <p>Remaining Money: ${money}</p>
+                                <h2>🥱 Your Stats 🥱</h2>
+                                <p>⏳ Survived: {time}</p>
+                                <p>Remaining 💰: ${money}</p>
                             </div>
-                            <p className='subtext'>Remember to share with Alan!</p>
+                            <div className='modal-stats'>
+                                <h2>😱 Personal Best: 😱</h2>
+                                <p>⏳ Survived: {oldStats.currentTime}</p>
+                                <p>Remaining 💰: ${oldStats.currentCash}</p>
+                            </div>
+                            <p className='subtext'>🔥🔥 Remember to 😎 share with 💯 Alan! 💯 🔥🔥</p>
                             <motion.button 
                                 whileHover={{scale: 1.1}}
                                 whileTap={{scale: 0.95}}
                                 onClick={handleClose}
                             >
-                                Try Again?
+                                ⏪ Try Again?
                             </motion.button>
-                        </>
+                        </div>
                     }
                 </motion.div>
             </Backdrop>

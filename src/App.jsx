@@ -43,7 +43,7 @@ function App() {
   const [oldScore, checkOldScore] = useLocalStorage({currentTime: "00:00:00", currentCash: 0});
   // A purge to remove old emotes that no longer exist
   useEffect(()=>{
-    if (newEmojis.length >= 10) {
+    if (newEmojis.length >= 15) {
       setNewEmojis([...newEmojis.slice(0, 1),
       ...newEmojis.slice(6, newEmojis.length)]);
     }
@@ -67,8 +67,11 @@ function App() {
   // increments affection meter and displays emojis
   const incrementAffection = () => {
     if(affection < 100) {
+      setAffectionInteraction("timer");
       setAffection(prevAffection => prevAffection + tapMod);
-      setAffectionInteraction("tap")
+      setAffectionTimerOff(true);
+      setTimeout(()=>{setAffectionTimerOff(false);},250)
+      
     }
     // the math.random is to choose a random emoji to display from the currentEmoji array
     setNewEmojis([...newEmojis, {emote: currentEmoji[Math.floor(Math.random() * currentEmoji.length)].emoji, id: Math.random()}]);
@@ -190,7 +193,6 @@ function App() {
   useEffect(()=>{
     if(gameOver) {
       checkOldScore({currentTime: time, currentCash: money});
-      console.log("it")
     }
   },[time])
   // close modal

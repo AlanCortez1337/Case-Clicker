@@ -7,7 +7,7 @@ export default function useCounter (onOff, time, timeInterval, counterType, modi
     const [pause, setPause] = useState(onOff);
     const [timer, setTimer] = useState(0);
 
-    useEffect(()=>{
+    useEffect(()=>{ 
         if(interaction === "timer" && !pause) {
             if(counterType === "increment"){
                 setTimer(

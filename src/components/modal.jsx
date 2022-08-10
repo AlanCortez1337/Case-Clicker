@@ -73,7 +73,7 @@ export default function Modal ({handleClose, modalType, time, money, oldStats}) 
                                 <p>⏳ Survived: {oldStats.currentTime}</p>
                                 <p>Remaining 💰: ${oldStats.currentCash}</p>
                             </div>
-                            <p className='subtext'>🔥🔥 Remember to 😎 share with 💯 Alan! 💯 🔥🔥</p>
+                            <p className='subtext'>🔥 Remember to 😎 share with 💯 Alan! 💯 🔥</p>
                             <motion.button 
                                 whileHover={{scale: 1.1}}
                                 whileTap={{scale: 0.95}}

@@ -22,7 +22,7 @@ export default function Stats({affectionMeter, currentMoney, currentLives, start
 
     return(
         <section className='stat-block-bg no-highlight'>
-            <h1>CASE-O-STATS</h1>
+            <h1>CASE-O-METER</h1>
             <div className='every-stat'>
                 <h2 className='happy-meter'>
                     <span className='emoji'>{currentEmotion}</span> <ProgressBar currentProgress={affectionMeter} width="400px" height="30px" startPoint="0%" variant={true}/>

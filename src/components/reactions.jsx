@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 
-
 function Reaction({emojis, variant}) {
-    
+    const screenWidth = window.innerWidth;
     
     return(
         <div className={`reaction-box${variant}`}>
@@ -13,7 +12,11 @@ function Reaction({emojis, variant}) {
             <motion.div
                 key={emotes.id}
                 style={{fontSize: `48px`}}
-                initial={{ y: `${Math.floor(Math.random() * 300) + 150}px`, x: `${Math.floor(Math.random() * 300) + 50}px`,opacity: 1 }}
+                initial={{ 
+                  y: `${Math.floor(Math.random() * 300) + 150}px`, 
+                  x: `${screenWidth <= 700 ? `${Math.floor(Math.random() * 55) + 15}vw` : `${Math.floor(Math.random() * 15) + 5}vw`}`,
+                  opacity: 1 
+                }}
                 animate={{ y: `0px`, opacity: 0 }}
                 transition={{
                     repeat: '0',

@@ -47,7 +47,7 @@ export default function Modal ({handleClose, modalType, time, money, oldStats}) 
                                 Game 🎮 is simple 🙏, ❌don't let 🥶
                                 the happy 😄 meter hit 😡 zero 😈. Tap on 😩 Case 😳  
                                 to make him 🤝 happy 🤪 or buy 💸 perks 💰 to 🤜🤛 help 🤝 you 
-                                on your 🌠 journey 🚀! Try to 😳 last 💦 a 📏 long ⏱️ time ⏳
+                                on your 🌠 journey 🚀! Try to 😳 last a 📏 long ⏱️ time ⏳
                                 and make Case 😂 happy 🤤 or else 🤫 someone will be 😥 sad 😭! 
                             </p>
                             <p>SO 🤔 WHAT ❓ ARE WAITING ⏲️ FOR? GO 🚶‍♂️💨MAKE A 😆 MAN...</p>
